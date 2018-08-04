@@ -16,6 +16,7 @@
 
 package com.example.android.android_me.ui;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -40,5 +41,14 @@ public class AndroidMeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_android_me);
 
         // TODO (5) Create a new BodyPartFragment instance and display it using the FragmentManager
+        BodyPartFragment headFragment = new BodyPartFragment();
+
+        // get the fragment manager
+        // TODO - make sure to get the support fragment manager for the build 19 compatibility
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+
+        // add the fragment to the screen
+        fragmentManager.beginTransaction().add(R.id.head_fragment_container, headFragment).commit();
+
     }
 }
