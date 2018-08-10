@@ -37,6 +37,20 @@
             android:layout_height="180dp"
             />
 
+        <!--The container should be 180dp in height -->
+        <FrameLayout
+            android:id="@+id/body_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            />
+
+        <!--The container should be 180dp in height -->
+        <FrameLayout
+            android:id="@+id/leg_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            />
+
 
     </LinearLayout>
 

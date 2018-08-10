@@ -17,6 +17,8 @@ import com.example.android.android_me.data.AndroidImageAssets;
  */
 
 public class BodyPartFragment extends Fragment {
+    // instance variables
+    private String bodyPartType = "head";
 
     public BodyPartFragment() {
 
@@ -32,9 +34,25 @@ public class BodyPartFragment extends Fragment {
         ImageView imageView = (ImageView)rootView.findViewById(R.id.body_part_image_view);
 
         // set the image
-        imageView.setImageResource(AndroidImageAssets.getHeads().get(0));
+        if (this.bodyPartType.equals("body")) {
+            imageView.setImageResource(AndroidImageAssets.getBodies().get(0));
+
+        } else if (this.bodyPartType.equals("head")) {
+            imageView.setImageResource(AndroidImageAssets.getHeads().get(0));
+
+        } else {
+            imageView.setImageResource(AndroidImageAssets.getLegs().get(0));
+        }
 
         // return
         return rootView;
+    }
+
+    public String getBodyPartType() {
+        return bodyPartType;
+    }
+
+    public void setBodyPartType(String bodyPartType) {
+        this.bodyPartType = bodyPartType;
     }
 }

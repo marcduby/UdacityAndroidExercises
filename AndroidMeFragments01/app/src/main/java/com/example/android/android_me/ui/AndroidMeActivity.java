@@ -42,13 +42,22 @@ public class AndroidMeActivity extends AppCompatActivity {
 
         // TODO (5) Create a new BodyPartFragment instance and display it using the FragmentManager
         BodyPartFragment headFragment = new BodyPartFragment();
+        headFragment.setBodyPartType("head");
+        BodyPartFragment bodyFragment = new BodyPartFragment();
+        bodyFragment.setBodyPartType("body");
+        BodyPartFragment legsFragment = new BodyPartFragment();
+        legsFragment.setBodyPartType("legs");
 
         // get the fragment manager
         // TODO - make sure to get the support fragment manager for the build 19 compatibility
         FragmentManager fragmentManager = this.getSupportFragmentManager();
 
         // add the fragment to the screen
-        fragmentManager.beginTransaction().add(R.id.head_fragment_container, headFragment).commit();
+        fragmentManager.beginTransaction()
+                .add(R.id.head_fragment_container, headFragment)
+                .add(R.id.body_fragment_container, bodyFragment)
+                .add(R.id.leg_fragment_container, legsFragment)
+                .commit();
 
     }
 }
