@@ -41,7 +41,7 @@ public class BodyPartFragment extends Fragment implements View.OnClickListener {
             this.fragmentPartIndex = savedInstanceState.getInt(this.KEY_INDEX);
             this.imageList = savedInstanceState.getIntegerArrayList(this.KEY_IMAGE_LIST);
         }
-        
+
         // get the root view and inflate it
         View rootView = inflater.inflate(R.layout.fragment_body_part, container, false);
 

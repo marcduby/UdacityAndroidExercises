@@ -17,8 +17,10 @@
 package com.example.android.android_me.ui;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -27,7 +29,8 @@ import java.util.List;
 
 
 // Custom adapter class that displays a list of Android-Me images in a GridView
-public class MasterListAdapter extends BaseAdapter {
+public class MasterListAdapter extends ArrayAdapter<Integer> {
+//    public class MasterListAdapter extends BaseAdapter {
 
     // Keeps track of the context and list of images to display
     private Context mContext;
@@ -38,6 +41,7 @@ public class MasterListAdapter extends BaseAdapter {
      * @param imageIds The list of images to display
      */
     public MasterListAdapter(Context context, List<Integer> imageIds) {
+        super(context, 0, imageIds);
         mContext = context;
         mImageIds = imageIds;
     }
@@ -51,7 +55,7 @@ public class MasterListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public Integer getItem(int i) {
         return null;
     }
 
@@ -72,6 +76,7 @@ public class MasterListAdapter extends BaseAdapter {
             imageView.setAdjustViewBounds(true);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
+
         } else {
             imageView = (ImageView) convertView;
         }
