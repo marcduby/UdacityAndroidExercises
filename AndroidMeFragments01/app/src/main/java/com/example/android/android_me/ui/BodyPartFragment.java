@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.example.android.android_me.R;
 import com.example.android.android_me.data.AndroidImageAssets;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +20,10 @@ import java.util.List;
  */
 
 public class BodyPartFragment extends Fragment implements View.OnClickListener {
+    // constants
+    private final String KEY_INDEX = "typeIndex";
+    private final String KEY_IMAGE_LIST = "imageList";
+
     // instance variables
     private String bodyPartType = "head";
     private int fragmentPartIndex = 0;
@@ -31,6 +36,12 @@ public class BodyPartFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // reset state if needed
+        if (savedInstanceState != null) {
+            this.fragmentPartIndex = savedInstanceState.getInt(this.KEY_INDEX);
+            this.imageList = savedInstanceState.getIntegerArrayList(this.KEY_IMAGE_LIST);
+        }
+        
         // get the root view and inflate it
         View rootView = inflater.inflate(R.layout.fragment_body_part, container, false);
 
@@ -45,6 +56,13 @@ public class BodyPartFragment extends Fragment implements View.OnClickListener {
 
         // return
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(this.KEY_INDEX, this.fragmentPartIndex);
+        outState.putIntegerArrayList(this.KEY_IMAGE_LIST, (ArrayList)this.imageList);
+//        super.onSaveInstanceState(outState);
     }
 
     @Override
