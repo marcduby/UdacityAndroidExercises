@@ -12,13 +12,17 @@ import android.widget.ImageView;
 import com.example.android.android_me.R;
 import com.example.android.android_me.data.AndroidImageAssets;
 
+import java.util.List;
+
 /**
  * Created by mduby on 8/4/18.
  */
 
-public class BodyPartFragment extends Fragment {
+public class BodyPartFragment extends Fragment implements View.OnClickListener {
     // instance variables
     private String bodyPartType = "head";
+    private int fragmentPartIndex = 0;
+    private List<Integer> imageList = AndroidImageAssets.getBodies();
 
     public BodyPartFragment() {
 
@@ -34,18 +38,30 @@ public class BodyPartFragment extends Fragment {
         ImageView imageView = (ImageView)rootView.findViewById(R.id.body_part_image_view);
 
         // set the image
-        if (this.bodyPartType.equals("body")) {
-            imageView.setImageResource(AndroidImageAssets.getBodies().get(0));
+        imageView.setImageResource(this.imageList.get(this.fragmentPartIndex));
 
-        } else if (this.bodyPartType.equals("head")) {
-            imageView.setImageResource(AndroidImageAssets.getHeads().get(0));
-
-        } else {
-            imageView.setImageResource(AndroidImageAssets.getLegs().get(0));
-        }
+        // set the click listener
+        imageView.setOnClickListener(this);
 
         // return
         return rootView;
+    }
+
+    @Override
+    public void onClick(View view) {
+        // get the view
+        ImageView imageView = (ImageView)view;
+
+        // increment the image index
+        if (this.fragmentPartIndex >= (this.imageList.size() - 1)) {
+            this.fragmentPartIndex = 0;
+
+        } else {
+            this.fragmentPartIndex++;
+        }
+
+        // set the new image
+        imageView.setImageResource(this.imageList.get(this.fragmentPartIndex));
     }
 
     public String getBodyPartType() {
@@ -54,5 +70,24 @@ public class BodyPartFragment extends Fragment {
 
     public void setBodyPartType(String bodyPartType) {
         this.bodyPartType = bodyPartType;
+
+        // based on the type, add the image list
+        if ("legs".equals(this.bodyPartType)) {
+            this.imageList = AndroidImageAssets.getLegs();
+
+        } else if ("body".equals(this.bodyPartType)) {
+            this.imageList = AndroidImageAssets.getBodies();
+
+        } else {
+            this.imageList = AndroidImageAssets.getHeads();
+        }
+    }
+
+    public int getFragmentPartIndex() {
+        return fragmentPartIndex;
+    }
+
+    public void setFragmentPartIndex(int fragmentPartIndex) {
+        this.fragmentPartIndex = fragmentPartIndex;
     }
 }
