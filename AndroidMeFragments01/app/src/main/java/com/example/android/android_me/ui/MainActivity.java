@@ -40,24 +40,24 @@ public class MainActivity extends AppCompatActivity implements MasterListFragmen
 //            gridView.setNumColumns(2);
 
             if (savedInstanceState == null) {
-                // create the body fragments
-                BodyPartFragment headFragment = new BodyPartFragment();
-                headFragment.setBodyPartType("head");
-                BodyPartFragment bodyFragment = new BodyPartFragment();
-                bodyFragment.setBodyPartType("body");
-                BodyPartFragment legsFragment = new BodyPartFragment();
-                legsFragment.setBodyPartType("legs");
+//                // create the body fragments
+//                BodyPartFragment headFragment = new BodyPartFragment();
+//                headFragment.setBodyPartType("head");
+//                BodyPartFragment bodyFragment = new BodyPartFragment();
+//                bodyFragment.setBodyPartType("body");
+//                BodyPartFragment legsFragment = new BodyPartFragment();
+//                legsFragment.setBodyPartType("legs");
+//
+//                // add the fragment to the screen
+//                fragmentManager.beginTransaction()
+//                        .add(R.id.head_fragment_container, headFragment)
+//                        .add(R.id.body_fragment_container, bodyFragment)
+//                        .add(R.id.leg_fragment_container, legsFragment)
+//                        .commit();
 
-                // get the fragment manager
-                // TODO - make sure to get the support fragment manager for the build 19 compatibility
-                FragmentManager fragmentManager = this.getSupportFragmentManager();
-
-                // add the fragment to the screen
-                fragmentManager.beginTransaction()
-                        .add(R.id.head_fragment_container, headFragment)
-                        .add(R.id.body_fragment_container, bodyFragment)
-                        .add(R.id.leg_fragment_container, legsFragment)
-                        .commit();
+                this.createBodyPart(0, 0);
+                this.createBodyPart(1, 1);
+                this.createBodyPart(2, 0);
             }
 
         } else {
@@ -70,17 +70,56 @@ public class MainActivity extends AppCompatActivity implements MasterListFragmen
         }
     }
 
+    private void createBodyPart(int bodyPartIndex, int specificIndex) {
+        // create the fragment
+        BodyPartFragment partFragment = new BodyPartFragment();
+
+        // set the index
+        partFragment.setFragmentPartIndex(specificIndex);
+
+        // get the fragment manager
+        // TODO - make sure to get the support fragment manager for the build 19 compatibility
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+
+        // based on the type, set the type and commit
+        switch(bodyPartIndex) {
+            case 0:
+                partFragment.setBodyPartType("head");
+                fragmentManager.beginTransaction()
+                        .add(R.id.head_fragment_container, partFragment)
+                        .commit();
+                break;
+            case 1:
+                partFragment.setBodyPartType("body");
+                fragmentManager.beginTransaction()
+                        .add(R.id.body_fragment_container, partFragment)
+                        .commit();
+                break;
+            case 2:
+                partFragment.setBodyPartType("legs");
+                fragmentManager.beginTransaction()
+                        .add(R.id.leg_fragment_container, partFragment)
+                        .commit();
+                break;
+            default:
+                break;
+        }
+
+    }
     @Override
     public void onImageClick(int position) {
-        Toast.makeText(this, "position: " + position, Toast.LENGTH_LONG).show();
         // from the index, figure out the body part
         int bodyPartIndex = position / 12;
 
         // get the body part specific index
         int specificIndex = position - bodyPartIndex * 12;
 
+        // toast
+        Toast.makeText(this, "position: " + bodyPartIndex + "_" + specificIndex, Toast.LENGTH_SHORT).show();
+
         // switch gui depending on layout
         if (this.isTableLayout) {
+            this.createBodyPart(bodyPartIndex, specificIndex);
 
         } else {
             // update instance index variables
