@@ -49,6 +49,14 @@ public class AndroidMeActivity extends AppCompatActivity {
             BodyPartFragment legsFragment = new BodyPartFragment();
             legsFragment.setBodyPartType("legs");
 
+            // get the bundel from the intent
+            Bundle bundle = this.getIntent().getExtras();
+
+            // set the indexes
+            headFragment.setFragmentPartIndex(bundle.getInt("headIndex"));
+            bodyFragment.setFragmentPartIndex(bundle.getInt("bodyIndex"));
+            legsFragment.setFragmentPartIndex(bundle.getInt("legIndex"));
+
             // get the fragment manager
             // TODO - make sure to get the support fragment manager for the build 19 compatibility
             FragmentManager fragmentManager = this.getSupportFragmentManager();
