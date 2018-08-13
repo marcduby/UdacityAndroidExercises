@@ -23,4 +23,6 @@
     <string name="go">GO</string>
     <string name="permission_denied">Permission denied</string>
     <string name="imageview_description">The imageview that contains the emojified picture</string>
+
+    <string name="message_no_faces">No faces detected in the image</string>
 </resources>

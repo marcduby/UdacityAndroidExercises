@@ -30,11 +30,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.android.emojify.utils.Emojifier;
 
 import java.io.File;
 import java.io.IOException;
@@ -155,10 +158,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // log
+        Log.i(this.getClass().getName(), "In onActivityResult method with request code: " + requestCode + " and result code: " + resultCode);
+
         // If the image capture activity was called and was successful
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             // Process the image and set it to the TextView
             processAndSetImage();
+
         } else {
 
             // Otherwise, delete the temporary image file
@@ -171,6 +178,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private void processAndSetImage() {
 
+        // log
+        Log.i(this.getClass().getName(), "In processAndSetImage method");
+
         // Toggle Visibility of the views
         mEmojifyButton.setVisibility(View.GONE);
         mTitleTextView.setVisibility(View.GONE);
@@ -180,6 +190,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Resample the saved image to fit the ImageView
         mResultsBitmap = BitmapUtils.resamplePic(this, mTempPhotoPath);
+
+        // call the detect faces
+        Emojifier.detectFaces(this, this.mResultsBitmap);
 
         // Set the new bitmap to the ImageView
         mImageView.setImageBitmap(mResultsBitmap);
