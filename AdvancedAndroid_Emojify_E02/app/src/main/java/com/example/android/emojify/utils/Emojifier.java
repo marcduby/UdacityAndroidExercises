@@ -26,8 +26,8 @@ public class Emojifier {
         // detect the faces in the image and log the results
         // create the face detector
         FaceDetector faceDetector = new FaceDetector.Builder(context)
-                .setTrackingEnabled(true)
-                .setLandmarkType(FaceDetector.ALL_LANDMARKS)
+                .setTrackingEnabled(false)
+                .setLandmarkType(FaceDetector.ALL_CLASSIFICATIONS)
                 .build();
 
         // build the frame
