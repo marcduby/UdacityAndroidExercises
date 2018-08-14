@@ -92,6 +92,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         String msg = getString(R.string.message_token_format, token);
         Log.d(LOG_TAG, msg);
 
+        // get the bundle from the intent if it exists
+        String key = "test";
+        Bundle extras = this.getIntent().getExtras();
+        if (extras != null && extras.containsKey(key)) {
+            String testValue = extras.getString(key);
+
+            // log
+            Log.i(this.getClass().getName(), "Got FCM message with key: " + key + " and message: " + testValue);
+
+        }
     }
 
     @Override
