@@ -22,6 +22,8 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 
 /**
  * Listens for changes in the InstanceID
+ *
+ * NOTE: this is the service you add to communicate to just one phone
  */
 public class SquawkFirebaseInstanceIdService extends FirebaseInstanceIdService {
 
