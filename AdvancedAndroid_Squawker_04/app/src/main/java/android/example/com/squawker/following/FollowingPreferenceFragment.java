@@ -79,16 +79,16 @@ public class FollowingPreferenceFragment extends PreferenceFragmentCompat implem
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Add the shared preference change listener
-        getPreferenceScreen().getSharedPreferences()
-                .registerOnSharedPreferenceChangeListener(this);
+        // TODO - register preference listener
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         // Remove the shared preference change listener
-        getPreferenceScreen().getSharedPreferences()
-                .unregisterOnSharedPreferenceChangeListener(this);
+        // TODO - unregister preference listener
+        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 
 }
