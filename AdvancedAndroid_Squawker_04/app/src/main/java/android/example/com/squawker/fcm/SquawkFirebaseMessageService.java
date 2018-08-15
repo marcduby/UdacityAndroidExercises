@@ -41,6 +41,9 @@ import java.util.Map;
  * depending on type of message
  */
 public class SquawkFirebaseMessageService extends FirebaseMessagingService {
+    // TODO - code change added here for reciving data message, then stored here
+        // add this class to manage Firebase data messages
+
 
     private static final String JSON_KEY_AUTHOR = SquawkContract.COLUMN_AUTHOR;
     private static final String JSON_KEY_AUTHOR_KEY = SquawkContract.COLUMN_AUTHOR_KEY;
@@ -78,6 +81,7 @@ public class SquawkFirebaseMessageService extends FirebaseMessagingService {
 
         // Check if message contains a data payload.
 
+        // TODO - added code to process data, then use schematic library to store into backed sql lite db
         Map<String, String> data = remoteMessage.getData();
 
         if (data.size() > 0) {
@@ -96,6 +100,8 @@ public class SquawkFirebaseMessageService extends FirebaseMessagingService {
      * @param data Map which has the message data in it
      */
     private void insertSquawk(final Map<String, String> data) {
+
+        // TODO - code change added here for reciving data message, then stored here
 
         // Database operations should not be done on the main thread
         AsyncTask<Void, Void, Void> insertSquawkTask = new AsyncTask<Void, Void, Void>() {
