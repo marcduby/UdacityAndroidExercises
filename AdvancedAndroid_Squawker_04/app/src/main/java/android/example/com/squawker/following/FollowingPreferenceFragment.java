@@ -49,6 +49,7 @@ public class FollowingPreferenceFragment extends PreferenceFragmentCompat implem
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        // TODO - add this method and interface override for handling prefernce changes and subscribing to topics on firebase
 
         Preference preference = findPreference(key);
         if (preference != null && preference instanceof SwitchPreferenceCompat) {
@@ -60,10 +61,13 @@ public class FollowingPreferenceFragment extends PreferenceFragmentCompat implem
                 // following_squawker.xml). The topic for Lyla's messages is /topics/key_lyla
 
                 // Subscribe
+                // TODO - subscribe to firebase topic key, which match DB key as well
                 FirebaseMessaging.getInstance().subscribeToTopic(key);
                 Log.d(LOG_TAG, "Subscribing to " + key);
+
             } else {
                 // Un-subscribe
+                // TODO - unsubscribe to firebase topic key, which match DB key as well
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(key);
                 Log.d(LOG_TAG, "Un-subscribing to " + key);
             }
