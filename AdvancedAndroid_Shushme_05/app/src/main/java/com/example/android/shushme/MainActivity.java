@@ -24,12 +24,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     // Constants
     public static final String TAG = MainActivity.class.getSimpleName();
+    private static final int PERMISSIONS_REQUEST_FINE_LOCATION = 111;
 
     // Member variables
     private PlaceListAdapter mAdapter;
@@ -57,7 +59,35 @@ public class MainActivity extends AppCompatActivity {
     // TODO (5) Override onConnected, onConnectionSuspended and onConnectionFailed for GoogleApiClient
 
     // TODO (7) Override onResume and inside it initialize the location permissions checkbox
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // initialize location checkbox
+        CheckBox locationPermissionCheckbox = (CheckBox)this.findViewById(R.id.location_permission_checkbox);
+
+        // check location
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // permission not granted
+            locationPermissionCheckbox.setChecked(false);
+
+        } else {
+            locationPermissionCheckbox.setChecked(true);
+            locationPermissionCheckbox.setEnabled(false);
+        }
+    }
+
     // TODO (8) Implement onLocationPermissionClicked to handle the CheckBox click event
+
+    /**
+     * handle the request for location permission
+     *
+     * @param view
+     */
+    public void onLocationPermissionClicked(View view) {
+        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_FINE_LOCATION);
+    }
+
     // (9) Implement the Add Place Button click event to show  a toast message with the permission status
     public void onAddPlaceButtonClicked(View view) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
