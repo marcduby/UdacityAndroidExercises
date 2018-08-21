@@ -18,10 +18,13 @@ package com.example.android.shushme;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +39,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Places;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener,
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     // Constants
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -73,6 +77,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .build();
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return null;
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+    }
+
     // TODO (5) Override onConnected, onConnectionSuspended and onConnectionFailed for GoogleApiClient
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -95,7 +114,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-    // TODO (7) Override onResume and inside it initialize the location permissions checkbox
+
+    // (7) Override onResume and inside it initialize the location permissions checkbox
     @Override
     public void onResume() {
         super.onResume();
