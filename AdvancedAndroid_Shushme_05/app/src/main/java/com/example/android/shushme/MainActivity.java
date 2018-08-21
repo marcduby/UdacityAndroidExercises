@@ -17,6 +17,8 @@ package com.example.android.shushme;
 */
 
 import android.Manifest;
+import android.content.ContentValues;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -33,10 +35,15 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.example.android.shushme.provider.PlaceContract;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlacePicker;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -45,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     // Constants
     public static final String TAG = MainActivity.class.getSimpleName();
     private static final int PERMISSIONS_REQUEST_FINE_LOCATION = 111;
+    private static final int PLACE_PICKER_REQUEST = 112;
 
     // Member variables
     private PlaceListAdapter mAdapter;
@@ -160,6 +168,63 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         } else {
             Toast.makeText(this, "Location permissions granted", Toast.LENGTH_SHORT).show();
         }
+
+        // create a new intent and activity
+        try {
+            PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+            Intent intent = intentBuilder.build(this);
+            startActivityForResult(intent, PLACE_PICKER_REQUEST);
+
+        } catch (GooglePlayServicesRepairableException exception) {
+            String message = "Got repair exception: " + exception.getMessage();
+            Log.e(TAG, message);
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+        } catch (GooglePlayServicesNotAvailableException exception) {
+            String message = "Got not available exception: " + exception.getMessage();
+            Log.e(TAG, message);
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+        } catch (Exception exception) {
+            String message = "Got general exception: " + exception.getMessage();
+            Log.e(TAG, message);
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        }
     }
 
+    @Override
+    /**
+     * this will handle the startActivityForResult() method callback
+     *
+     */
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Toast.makeText(this, "handle location selection", Toast.LENGTH_SHORT).show();
+
+        // make sure the code is the place picker request code
+        if (requestCode == PLACE_PICKER_REQUEST && resultCode == RESULT_OK) {
+            Place place = PlacePicker.getPlace(this, data);
+
+            // check
+            if (place == null) {
+                String message = "Got no place";
+                Log.i(TAG, message);
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+            } else {
+                String message = "Got place!!!";
+                Log.i(TAG, message);
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+                // get the place id; Google doesn't allow storing any place info more than 30 days
+                String placeName = place.getName().toString();
+                String address = place.getAddress().toString();
+                String placeId = place.getId();
+
+                // store the id in the DB
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(PlaceContract.PlaceEntry.COLUMN_PLACE_ID, placeId);
+                this.getContentResolver().insert(PlaceContract.PlaceEntry.CONTENT_URI, contentValues);
+            }
+        }
+    }
 }
