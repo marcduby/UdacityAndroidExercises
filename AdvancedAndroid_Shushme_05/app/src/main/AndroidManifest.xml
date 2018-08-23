@@ -26,6 +26,9 @@
             android:authorities="com.example.android.shushme"
             android:exported="false"/>
 
+        <!-- add receiver for geofence transition -->
+        <receiver android:name=".geo.GeoFenceBroadcastReceiver"/>
+
     </application>
 
     <!-- TODO (2) Add uses-permission tags for INTERNET and ACCESS_FINE_LOCATION -->

@@ -1,10 +1,12 @@
 package com.example.android.shushme.geo;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 
@@ -20,11 +22,11 @@ public class GeoFencing {
     public static final String TAG = GeoFencing.class.getName();
     private final static float GEOFENCE_RADIUS = 50;        // 50 meters
     private static final long GEOFENCE_TIMEOUT = 24 * 60 * 60 * 1000;       // 24 hours
-    
+
     // instance variables
     private GoogleApiClient googleApiClient;
     private Context context;
-    private Intent geoFencingIntent = null;
+    private PendingIntent geoFencingIntent = null;
     List<Geofence> geoFenceList = new ArrayList<Geofence>();
 
     /**
@@ -38,6 +40,56 @@ public class GeoFencing {
         this.googleApiClient = client;
     }
 
+    /**
+     * returns a geofencing request using the list of the geofences
+     *
+     * @return
+     */
+    private GeofencingRequest getGeoFencingRequest() {
+        // local variables
+        GeofencingRequest geofencingRequest = null;
+
+        // get the builder
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+
+        // set the default trigger if the device is already in a geofence
+        // Note: DWELL is similar, but expects the device to be in the geo fence for a time before triggering enter event
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+
+        // add the geofences
+        builder.addGeofences(this.geoFenceList);
+
+        // build the geofence
+        geofencingRequest = builder.build();
+
+        // return
+        return geofencingRequest;
+    }
+
+    /**
+     * create the pending intent
+     * 
+     * @return
+     */
+    private PendingIntent getGeoFencePendingIntent() {
+        // if created, return
+        if (this.geoFencingIntent == null) {
+            // create the intent
+            Intent intent = new Intent(this.context, GeoFenceBroadcastReceiver.class);
+
+            // create the pending intent
+            this.geoFencingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
+
+        // return
+        return this.geoFencingIntent;
+    }
+
+    /**
+     * update the geo fences
+     *
+     * @param places
+     */
     public void updateGeoFenceList(PlaceBuffer places) {
         // create a new list
         this.geoFenceList = new ArrayList<Geofence>();
@@ -61,9 +113,7 @@ public class GeoFencing {
                 // add to list
                 this.geoFenceList.add(geofence);
             }
-
         }
-
     }
 
 }
