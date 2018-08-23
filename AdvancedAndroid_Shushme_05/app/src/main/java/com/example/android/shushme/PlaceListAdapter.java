@@ -23,17 +23,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.PlaceViewHolder> {
+import com.google.android.gms.location.places.PlaceBuffer;
 
+public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.PlaceViewHolder> {
+    // instance variables
     private Context mContext;
+    private PlaceBuffer mPlaces;
 
     /**
      * Constructor using the context and the db cursor
      *
      * @param context the calling context/activity
      */
-    public PlaceListAdapter(Context context) {
+    public PlaceListAdapter(Context context, PlaceBuffer places) {
         this.mContext = context;
+        this.mPlaces = places;
     }
 
     /**
@@ -59,9 +63,30 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
      */
     @Override
     public void onBindViewHolder(PlaceViewHolder holder, int position) {
+        // get the places data
+        String placeName = this.mPlaces.get(position).getName().toString();
+        String pcaeAddress = this.mPlaces.get(position).getAddress().toString();
 
+        // set the places data on the vie holder
+        holder.nameTextView.setText(placeName);
+        holder.addressTextView.setText(pcaeAddress);
     }
 
+    /**
+     * swap the places list
+     *
+     * @param places
+     */
+    public void swapPlaces(PlaceBuffer places) {
+        // swap
+        this.mPlaces = places;
+
+        // notify if not null
+        if (this.mPlaces != null) {
+            // notify
+            this.notifyDataSetChanged();
+        }
+    }
 
     /**
      * Returns the number of items in the cursor
@@ -70,14 +95,19 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
      */
     @Override
     public int getItemCount() {
-        return 0;
+        if (this.mPlaces != null) {
+            return this.mPlaces.getCount();
+
+        } else {
+            return 0;
+        }
     }
 
     /**
      * PlaceViewHolder class for the recycler view item
      */
     class PlaceViewHolder extends RecyclerView.ViewHolder {
-
+        // instance variables
         TextView nameTextView;
         TextView addressTextView;
 

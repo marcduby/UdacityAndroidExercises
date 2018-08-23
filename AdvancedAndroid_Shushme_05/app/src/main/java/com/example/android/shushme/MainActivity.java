@@ -21,6 +21,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -40,10 +41,16 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -72,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         // Set up the recycler view
         mRecyclerView = (RecyclerView) findViewById(R.id.places_list_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new PlaceListAdapter(this);
+        mAdapter = new PlaceListAdapter(this, null);
         mRecyclerView.setAdapter(mAdapter);
 
         // TODO (4) Create a GoogleApiClient with the LocationServices API and GEO_DATA_API
@@ -106,6 +113,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         String message = "Location connection successful";
         Log.i(TAG, message);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+        // now call refresh places
+        this.refreshPlacesData();
     }
 
     @Override
@@ -122,6 +132,38 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * refresh the place data
+     *
+      */
+    public void refreshPlacesData() {
+        // local variables
+        List<String> placeIdList = new ArrayList<String>();
+
+        // query for all stored places
+        Uri uri = PlaceContract.PlaceEntry.CONTENT_URI;
+        Cursor cursor = this.getContentResolver().query(uri, null, null, null, null);
+
+        // loop through the cursor
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                placeIdList.add(cursor.getString(cursor.getColumnIndex(PlaceContract.PlaceEntry.COLUMN_PLACE_ID)));
+            }
+
+            // make the call for all places
+            PendingResult<PlaceBuffer> placeBufferPendingResult = Places.GeoDataApi.getPlaceById(this.client, placeIdList.toArray(new String[placeIdList.size()]));
+
+            // set the callback for the pending result class
+            placeBufferPendingResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
+                @Override
+                public void onResult(@NonNull PlaceBuffer places) {
+                    mAdapter.swapPlaces(places);
+                }
+            });
+        }
+
+
+    }
 
     // (7) Override onResume and inside it initialize the location permissions checkbox
     @Override
@@ -226,5 +268,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 this.getContentResolver().insert(PlaceContract.PlaceEntry.CONTENT_URI, contentValues);
             }
         }
+
+        // now refresh the places list
+        this.refreshPlacesData();
     }
 }

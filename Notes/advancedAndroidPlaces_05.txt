@@ -1,0 +1,4 @@
+You should always make sure the Terms of Use and Privacy Policy are available in the Play Store so that when users download the application they understand the conditions they are implicitly agreeing upon. You can also include these terms somewhere inside the application itself (e.g in an About page that can be reached through a Settings menu, etc.).
+
+Make sure, as part of this exercise, to include the powered by Google logo and a link to the privacy policy at the bottom of the screen.
+
