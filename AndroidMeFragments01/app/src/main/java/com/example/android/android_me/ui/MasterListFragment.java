@@ -16,9 +16,10 @@ import com.example.android.android_me.R;
 import com.example.android.android_me.data.AndroidImageAssets;
 
 /**
+ * Fragment class to list the body parts
+ *
  * Created by mduby on 8/10/18.
  */
-
 public class MasterListFragment extends Fragment {
     // instance variables
     private int numberOfColumns = 5;

@@ -70,6 +70,12 @@ public class MainActivity extends AppCompatActivity implements MasterListFragmen
         }
     }
 
+    /**
+     * adds a body part fragment
+     *
+     * @param bodyPartIndex
+     * @param specificIndex
+     */
     private void createBodyPart(int bodyPartIndex, int specificIndex) {
         // create the fragment
         BodyPartFragment partFragment = new BodyPartFragment();
