@@ -17,6 +17,7 @@ package com.example.android.shushme;
 */
 
 import android.Manifest;
+import android.app.NotificationManager;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -223,6 +224,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             locationPermissionCheckbox.setChecked(true);
             locationPermissionCheckbox.setEnabled(false);
         }
+
+        // Initialize ringer permissions checkbox
+        CheckBox ringerPermissions = (CheckBox) findViewById(R.id.ringer_permission_checkbox);
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        // Check if the API supports such permission change and check if permission is granted
+        if (android.os.Build.VERSION.SDK_INT >= 24 && !nm.isNotificationPolicyAccessGranted()) {
+            ringerPermissions.setChecked(false);
+
+        } else {
+            ringerPermissions.setChecked(true);
+            ringerPermissions.setEnabled(false);
+        }
     }
 
     // (8) Implement onLocationPermissionClicked to handle the CheckBox click event
@@ -233,6 +247,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      */
     public void onLocationPermissionClicked(View view) {
         ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_FINE_LOCATION);
+    }
+
+    /**
+     * handles the ringer permission option
+     * @param view
+     */
+    public void onRingerPermissionClicked(View view) {
+        // log
+        String message = "Ringer updated";
+        Log.i(TAG, message);
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+        // create an intent to request the ringer permission
+        Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+        this.startActivity(intent);
     }
 
     // (9) Implement the Add Place Button click event to show  a toast message with the permission status

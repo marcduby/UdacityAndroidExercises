@@ -7,4 +7,9 @@
     <string name="enable_geofences">Enable Geofences</string>
 
     <string name="location_permissions">Enable GeoLocation</string>
+    <string name="ringer_permissions">Enable Ringer Snooze</string>
+
+    <string name="silent_mode_activated">Silent ringer</string>
+    <string name="back_to_normal">Normal ringer</string>
+    <string name="touch_to_relaunch">Touch to relaunch</string>
 </resources>

@@ -1,8 +1,11 @@
 package com.example.android.shushme.geo;
 
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
@@ -48,7 +51,6 @@ public class GeoFencing implements ResultCallback {
 
     /**
      * register all the geofences
-     *
      */
     public void registerAllGeofences() {
         // check that we are connected and that there are places to handle
@@ -71,7 +73,6 @@ public class GeoFencing implements ResultCallback {
 
     /**
      * unregister all the geofences
-     *
      */
     public void unregisterAllGeofences() {
         // check that we are connected and that there are places to handle
@@ -159,7 +160,7 @@ public class GeoFencing implements ResultCallback {
         if (places != null) {
             for (Place place : places) {
                 // read the info from the db cursor
-                String placeId = place.getId();
+                String placeId = (place.getId().length() > 25 ? place.getId().substring(0, 20) : place.getId());
                 double latitude = place.getLatLng().latitude;
                 double longitude = place.getLatLng().longitude;
 
@@ -176,5 +177,5 @@ public class GeoFencing implements ResultCallback {
             }
         }
     }
-
 }
+
