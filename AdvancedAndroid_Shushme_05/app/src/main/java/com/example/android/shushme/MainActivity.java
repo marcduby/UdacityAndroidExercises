@@ -19,10 +19,12 @@ package com.example.android.shushme;
 import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -34,8 +36,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.android.shushme.geo.GeoFencing;
 import com.example.android.shushme.provider.PlaceContract;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -65,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private PlaceListAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private GoogleApiClient client;
+    private GeoFencing geoFencing;
+    private boolean isGeoFencingEnabled;
 
     /**
      * Called when the activity is starting
@@ -82,6 +89,28 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mAdapter = new PlaceListAdapter(this, null);
         mRecyclerView.setAdapter(mAdapter);
 
+        // get the geo fencng on/off switch and set listener
+        Switch onOffSwitch = (Switch)this.findViewById(R.id.enable_switch);
+        this.isGeoFencingEnabled = this.getPreferences(MODE_PRIVATE).getBoolean(this.getString(R.string.setting_enabled), false);
+        onOffSwitch.setEnabled(this.isGeoFencingEnabled);
+        onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                // get the geo fence preferences and set it
+                SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+                editor.putBoolean(getString(R.string.setting_enabled), isChecked);
+                isGeoFencingEnabled = isChecked;
+
+                // if checked, register all geo fences; else, unregister
+                if (isChecked) {
+                    geoFencing.registerAllGeofences();
+
+                } else {
+                    geoFencing.unregisterAllGeofences();
+                }
+            }
+        });
+
         // TODO (4) Create a GoogleApiClient with the LocationServices API and GEO_DATA_API
         this.client = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -90,6 +119,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .addApi(Places.GEO_DATA_API)
                 .enableAutoManage(this, this)
                 .build();
+
+        // create the geo fencing class
+        this.geoFencing = new GeoFencing(this, this.client);
     }
 
     @Override
@@ -157,7 +189,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             placeBufferPendingResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
                 @Override
                 public void onResult(@NonNull PlaceBuffer places) {
+                    // update the adapter data
                     mAdapter.swapPlaces(places);
+
+                    // update the geo fence list
+                    geoFencing.updateGeoFenceList(places);
+
+                    // if the geo fence switch is on, register all the updated geofences
+                    if (isGeoFencingEnabled) {
+                        geoFencing.registerAllGeofences();
+                    }
                 }
             });
         }
@@ -195,7 +236,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     // (9) Implement the Add Place Button click event to show  a toast message with the permission status
-
     /**
      * handles the on add place option change
      *
