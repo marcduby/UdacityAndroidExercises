@@ -18,6 +18,7 @@ package com.example.android.classicalmusicquiz;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -75,7 +76,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     private SimpleExoPlayerView simpleExoPlayerView;
 
     // step 12 - adding media session object
-    private MediaSessionCompat mediaSessionCompat;
+    private static MediaSessionCompat mediaSessionCompat;
     private PlaybackStateCompat.Builder playbackBuilder;
 
     // setp 13 - adding notification
@@ -195,7 +196,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     private void releasePalyer() {
         // cancel all notifications
         this.mNotificationManager.cancelAll();
-        
+
         // NOTE - also call this in onPause and onStop when the app is not visible
         this.simpleExoPlayer.stop();
         this.simpleExoPlayer.release();
@@ -450,6 +451,17 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onSkipToPrevious() {
             super.onSkipToPrevious();
+        }
+    }
+
+    public static class MediaReceiver extends BroadcastReceiver {
+
+        public  MediaReceiver() {
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            MediaButtonReceiver.handleIntent(mediaSessionCompat, intent);
         }
     }
 }
