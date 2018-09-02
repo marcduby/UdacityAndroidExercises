@@ -16,6 +16,7 @@
 
 package com.example.android.classicalmusicquiz;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,13 +33,18 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -128,6 +134,11 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
             this.simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
+
+            // add in a listener
+            this.simpleExoPlayer.addListener(new PlayerListener(this));
+
+            // add the player to the player view
             this.simpleExoPlayerView.setPlayer(this.simpleExoPlayer);
 
             // prepare the media source
@@ -267,5 +278,52 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
         // release the exo player
         this.releasePalyer();
+    }
+
+    public class PlayerListener implements ExoPlayer.EventListener {
+        // instance variables
+        Context context;
+
+        public PlayerListener(Context con) {
+            this.context = con;
+        }
+
+        @Override
+        public void onLoadingChanged(boolean isLoading) {
+
+        }
+
+        @Override
+        public void onTimelineChanged(Timeline timeline, Object manifest) {
+
+        }
+
+        @Override
+        public void onPlayerError(ExoPlaybackException error) {
+
+        }
+
+        @Override
+        public void onPositionDiscontinuity() {
+
+        }
+
+        @Override
+        public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+
+        }
+
+        @Override
+        public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+            if ((playbackState == ExoPlayer.STATE_READY) && playWhenReady) {
+                Toast.makeText(this.context, "Player ready", Toast.LENGTH_SHORT).show();
+
+            } else if ((playbackState == ExoPlayer.STATE_READY)) {
+                Toast.makeText(this.context, "Player paused", Toast.LENGTH_SHORT).show();
+
+            } else {
+                Toast.makeText(this.context, "Player other state", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
