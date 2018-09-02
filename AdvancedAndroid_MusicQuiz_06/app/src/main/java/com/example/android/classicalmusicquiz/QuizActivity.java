@@ -193,6 +193,9 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
      *
      */
     private void releasePalyer() {
+        // cancel all notifications
+        this.mNotificationManager.cancelAll();
+        
         // NOTE - also call this in onPause and onStop when the app is not visible
         this.simpleExoPlayer.stop();
         this.simpleExoPlayer.release();
