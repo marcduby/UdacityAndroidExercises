@@ -31,11 +31,11 @@
         <ImageButton android:id="@id/exo_rew"
             style="@style/ExoMediaButton.Rewind"/>
 
-        <ImageButton android:id="@id/exo_shuffle"
-            style="@style/ExoMediaButton.Shuffle"/>
+        <!--<ImageButton android:id="@id/exo_shuffle"-->
+            <!--style="@style/ExoMediaButton.Shuffle"/>-->
 
-        <ImageButton android:id="@id/exo_repeat_toggle"
-            style="@style/ExoMediaButton"/>
+        <!--<ImageButton android:id="@id/exo_repeat_toggle"-->
+            <!--style="@style/ExoMediaButton"/>-->
 
         <ImageButton android:id="@id/exo_play"
             style="@style/ExoMediaButton.Play"/>
@@ -68,7 +68,8 @@
             android:includeFontPadding="false"
             android:textColor="#FFBEBEBE"/>
 
-        <com.google.android.exoplayer2.ui.DefaultTimeBar
+        <!--<com.google.android.exoplayer2.ui.DefaultTimeBar-->
+        <SeekBar
             android:id="@id/exo_progress"
             android:layout_width="0dp"
             android:layout_weight="1"
