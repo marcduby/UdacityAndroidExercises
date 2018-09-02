@@ -26,6 +26,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -53,6 +55,8 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 
 public class QuizActivity extends AppCompatActivity implements View.OnClickListener {
+    // instance variables
+    private String TAG = this.getClass().getName();
 
     private static final int CORRECT_ANSWER_DELAY_MILLIS = 1000;
     private static final String REMAINING_SONGS_KEY = "remaining_songs";
@@ -65,6 +69,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     private Button[] mButtons;
     private SimpleExoPlayer simpleExoPlayer;
     private SimpleExoPlayerView simpleExoPlayerView;
+
+    // step 12 - adding media session object
+    private MediaSessionCompat mediaSessionCompat;
+    private PlaybackStateCompat.Builder playbackBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +122,28 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, this.getString(R.string.sample_list_load_error), Toast.LENGTH_SHORT).show();;
             return;
         }
+
+        // step 12 - create a media session object
+        this.mediaSessionCompat = new MediaSessionCompat(this, TAG);
+
+        // set the media session flags
+        this.mediaSessionCompat.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+
+        // set the media button receiver component
+        this.mediaSessionCompat.setMediaButtonReceiver(null);
+
+        // set the available actions and initial statwe
+        this.playbackBuilder = new PlaybackStateCompat.Builder().setActions(
+                PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_PAUSE | PlaybackStateCompat.ACTION_PLAY_PAUSE |
+                        PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
+        );
+        this.mediaSessionCompat.setPlaybackState(this.playbackBuilder.build());
+
+        // set the call back
+        this.mediaSessionCompat.setCallback(new MySessionCallback());
+
+        // start the session
+        this.mediaSessionCompat.setActive(true);
 
         // TODO (5): Create a method called initializePlayer() that takes a Uri as an argument and call it here, passing in the Sample URI.
         this.initializePlayer(Uri.parse(answerSample.getUri()));
@@ -276,6 +306,9 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
 
+        // stop the media session
+        this.mediaSessionCompat.setActive(false);
+
         // release the exo player
         this.releasePalyer();
     }
@@ -316,14 +349,41 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
             if ((playbackState == ExoPlayer.STATE_READY) && playWhenReady) {
+                // update the media session
+                playbackBuilder.setState(PlaybackStateCompat.STATE_PLAYING, simpleExoPlayer.getCurrentPosition(), 1f);
+                mediaSessionCompat.setPlaybackState(playbackBuilder.build());
+
+                // toast
                 Toast.makeText(this.context, "Player ready", Toast.LENGTH_SHORT).show();
 
             } else if ((playbackState == ExoPlayer.STATE_READY)) {
+                // update the media session
+                playbackBuilder.setState(PlaybackStateCompat.STATE_PAUSED, simpleExoPlayer.getCurrentPosition(), 1f);
+                mediaSessionCompat.setPlaybackState(playbackBuilder.build());
+
+                // toast
                 Toast.makeText(this.context, "Player paused", Toast.LENGTH_SHORT).show();
 
             } else {
                 Toast.makeText(this.context, "Player other state", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    public class MySessionCallback extends MediaSessionCompat.Callback {
+        @Override
+        public void onPlay() {
+            super.onPlay();
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+        }
+
+        @Override
+        public void onSkipToPrevious() {
+            super.onSkipToPrevious();
         }
     }
 }
