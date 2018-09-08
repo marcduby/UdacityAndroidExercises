@@ -1,0 +1,10 @@
+Lesson 04 - Firebase:
+
+The code for this app can be found in the Squawker repository. Download this repository using the command:
+
+git clone https://github.com/udacity/AdvancedAndroid_Squawker.git
+If you need a refresher on how the code is organized, please refer to the concept where we introduced how to work with the course code.
+
+The following_squawker.xml file is the one which generates the preferences and you would need a new SwitchPreferenceCompat preference for the new instructor. For that preference, you would need new strings in the strings.xml file, including the key string, which would be key_<your name>. In the SquawkContract, you’d then make a new constant for the new instructor key, and add it to the list you search through for the createSelectionForCurrentFollowers method. Finally, the SquawkAdapter would need to be changed to accommodate showing your profile picture.
+
+

@@ -1,0 +1,72 @@
+
+Media players
+
+
+Customizing ExoPlayer UI
+We chose to use SimpleExoPlayerView because of its simplicity. It can be hooked up to ExoPlayer with a single line of code and greatly simplifies the UI portion of a media application since we don't have to code anything ourselves. However, such simplicity usually comes at the cost of customization: you might think that we are stuck with the provided UI since it comes ready out of the box. Not so with ExoPlayer!
+
+ExoPlayer comes with two notable out of the box UI elements:
+
+PlaybackControlView is a view for controlling ExoPlayer instances. It displays standard playback controls including a play/pause button, fast-forward and rewind buttons, and a seek bar.
+SimpleExoPlayerView is a high level view for SimpleExoPlayer media playbacks. It displays video (or album art in our case) and displays playback controls using a PlaybackControlView.
+These ExoPlayer UI components were created with customization in mind, in the following ways:
+
+Attributes
+The XML items support a variety of xml attributes that customize the look of the UI. Take a look at the documentation for the UI element to see the list of possible attributes (and their corresponding Java methods).
+
+Overriding layout files
+When these views are inflated, they use specific layout files to determine what the UI looks like. For SimpleExoPlayerView, this file is called: exo_simple_player_view.xml. This layout file includes a PlayBackControlView (once it's inflated, it replaces the exo_controller_placeholder item) which also uses its own layout file: exo_playback_control_view.xml.
+
+If you include any layout files with the same names, ExoPlayer will use them instead of these default ones. This allows you to fully customize what the UI looks like.
+
+One caveat: Use of standard ids (such as exo_play) is required so that child views can be identified, bound to the player and updated in an appropriate way. A full list of the standard ids for each view can be found in the Javadoc for PlaybackControlView and SimpleExoPlayerView. Use of each standard id is optional, which is why we’ll be able to omit some of the usual playback controls in our example.
+
+Custom Layout Files
+The issue with the above method is that it customizes the UI for every instance of SimpleExoPlayerView (and/or PlaybackControlView). For our use case, this doesn't matter since we only have one player view. However, if you need to customize individual instances, you can use a combination of the two above methods: use the player_layout_id attribute for a custom SimpleExoPlayerView, or the controller_layout_id for a custom PlaybackControlView and specify a custom layout file to override the layout for that specific instance.
+
+We don't need individual instance customization, so override the exo_playback_control_view.xml layout file for the playback control view (included in our SimpleExoPlayerView) and remove the skip to next, fastforward and rewind buttons (you can copy the default layout here).
+
+After completing this, run the app and notice the change in the UI!
+
+Customize SimpleExoPlayerView
+In this exercise, you'll customize the SimpleExoPlayerView to only include the playback controls you want to support.
+
+
+
+Introduction
+Now we have a customized media player that works perfectly for our app. The last step is to make it play well with external clients and other apps. But before we can set up a Media Session, we need to find out what the state of ExoPlayer is so that we can keep our Media Session in sync. We learned that state changes happen automatically with our SimpleExoPlayerView, but how are we going to get that information over to the Media Session? Go to the next video to find out!
+
+ExoPlayer Event Listening
+In this exercise, you'll monitor the state changes of the ExoPlayer using an EventListener, and log the state every time it changes.
+
+
+
+Android Media Framework Extras
+Audio Focus
+This is how the Android framework knows about different applications using audio. If you want your app to fade out when other important notifications (such as navigation) occur, you'll need to learn how your app can "hop in line" to be the one in charge of audio playback, until another app requests focus.
+
+Noisy Intent
+There are certain conditions that you will want to check for. For example, imagine you are blasting your favorite song at full volume. Little does anyone know, but your favorite song is "Itsy Bitsy Spider". Right when it's about to get to the best part, you trip and yank out the headphones from the audio port. Suddenly the whole world knows your secret. Not the best experience right? Luckily the android framework sends out the ACTION_AUDIO_BECOMING_NOISY intent when this occurs. This allows you to register a broadcast receiver and take a specific action when this occurs (like pausing the music and saving yourself of embarrassment).
+
+Audio Stream
+Android uses separate audio streams for playing music, alarms, notifications, the incoming call ringer, system sounds, in-call volume, and DTMF tones. This allows users to control the volume of each stream independently.
+
+By default, pressing the volume control modifies the volume of the active audio stream. If your app isn't currently playing anything, hitting the volume keys adjusts the ringer volume. To ensure that volume controls adjust the correct stream, you should call setVolumeControlStream() passing in AudioManager.STREAM_MUSIC.
+
+ExoPlayer Extras
+Subtitle Side Loading
+Given a video file and a separate subtitle file, MergingMediaSource can be used to merge them into a single source for playback.
+
+MediaSource videoSource = new ExtractorMediaSource(videoUri, ...);
+MediaSource subtitleSource = new SingleSampleMediaSource(subtitleUri, ...);
+// Plays the video with the sideloaded subtitle.
+MergingMediaSource mergedSource =
+    new MergingMediaSource(videoSource, subtitleSource);
+Looping a video
+A video can be seamlessly looped using a LoopingMediaSource. The following example loops a video indefinitely. It’s also possible to specify a finite loop count when creating a LoopingMediaSource.
+
+MediaSource source = new ExtractorMediaSource(videoUri, ...);
+// Loops the video indefinitely.
+LoopingMediaSource loopingSource = new LoopingMediaSource(source);
+
+

@@ -1,0 +1,20 @@
+
+
+My Notes
+--------
+
+- gradle has tasks
+  - can be nested
+  - can have inputs/outputs
+  
+- gradlew
+  - gradle wrapper
+  - will pass through command if gradle already installed
+  - if not, gradle will be installed
+  
+- gradle daemon
+  - android studio always uses the daemon, which mitigates gradel startup times
+  - from command line, have to manually instantiate thee daemon
+  
+- 
+

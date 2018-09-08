@@ -1,0 +1,46 @@
+Creating a content provider is no easy feat, and it has many components. Many developers have struggled with this, so naturally, someone created a library to simplify this process. Check out Schematic for an example of such a library.
+
+Loading images over the network is a challenge since it depends heavily on network availability and consumes a lot of battery. There are many libraries that help with this, including robust features such as caching, configured timeouts and more. See Picasso for an example of such a library.
+
+Barcode scanning is a feature that is available in many different applications, so that should give you a hint that there are libraries that help with that. The Google Mobile Vision library includes API's for scanning barcodes.
+
+Complex logging needs can also be addressed using Libraries. The default logger falls short if you need to modify what kind of things you need displayed in the debugger depending on what version of your app is Running. Timber includes this, and many more features.
+
+resamplePic(): The resamplePic() method gets the height and width of the device screen in pixels, and resamples the passed in image to fit the screen.
+
+createTempImageFile(): This method creates a temporary file in the external cache directory and returns the new temp file.
+
+deleteImageFile(): This method attempts to delete the image at the passed in path. If it fails, it shows a toast.
+
+galleryAddPic(): This method cause the image content provider to add the image from the passed in path to the system gallery, so it can be found by other app. It is only called inside the saveImage() described below.
+
+saveImage(): This method saves the passed in Bitmap in the External Storage, in the subdirectory called "Emojify". It also adds the image to the system gallery by calling the above galleryAddPic().
+
+shareImage(): This method creates a share implicit intent, which will bring up the system chooser with apps that handle sharing an image.
+
+To conclude this lesson, here are some other Libraries that many Android applications use.
+
+Lesson 03 - Libraries:
+Picasso and Glide: A common problem that Android developers face is the proper use of images in their application. Including many high quality images will drastically increase your apk size, while downloading images over the network comes with memory consumption and network availability problems. Picasso and Glide are both very robust libraries that facilitate the loading, caching and displaying of Images. They include tons of amazing features, such as the ability to include placeholder images and local caching, so almost every application that includes images uses one of these libraries. Check out the documentation on Picasso and Glide.
+
+Butterknife: If you've created an app with a lot of views, then you'll know how tedious it can be to write findViewById() calls for each one, as well as to create custom onClicks for each one. These tasks pertain to Data Binding, the realm of connecting your data to the user facing views. Butterknife is a revolutionary library that uses annotations to make this much easier. Check out the documentation for some examples of how this can make your life much easier. You can even implement it in our Emojifier app if you want; check out this code branch to see how it would look.
+
+Timber: Created and maintained by the same developer who created Butterknife, Timber is a really cool tool for Logging. I'm sure you have all used the built-in Logger and know the importance of seeing information about your app in the debugger. Timber takes this further by providing a modifiable platform for all your logging needs. It contains these, and many more features:
+
+Log without a TAG (Timber creates one for you)
+Create different logging logic for Debug and Release version of your app (you probably only want to see errors in the release version)
+Automatic error detection
+You can see this library in action in our Emojifier app here.
+
+
+
+Lesson 04 - Firebase:
+
+The code for this app can be found in the Squawker repository. Download this repository using the command:
+
+git clone https://github.com/udacity/AdvancedAndroid_Squawker.git
+If you need a refresher on how the code is organized, please refer to the concept where we introduced how to work with the course code.
+
+The following_squawker.xml file is the one which generates the preferences and you would need a new SwitchPreferenceCompat preference for the new instructor. For that preference, you would need new strings in the strings.xml file, including the key string, which would be key_<your name>. In the SquawkContract, you’d then make a new constant for the new instructor key, and add it to the list you search through for the createSelectionForCurrentFollowers method. Finally, the SquawkAdapter would need to be changed to accommodate showing your profile picture.
+
+
