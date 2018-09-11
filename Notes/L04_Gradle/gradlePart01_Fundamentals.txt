@@ -15,6 +15,54 @@ My Notes
 - gradle daemon
   - android studio always uses the daemon, which mitigates gradel startup times
   - from command line, have to manually instantiate thee daemon
+  - gradle --stop
+    - will stop daemon
+  - export GRADLE_OPTS="-Dorg.gradle.daemon=true"
+    - will start daemon first time gradel run
+    - subsequent command runs a lot faster
+    
+- shell script
+export GRADLE_HOME=/Users/mduby/Apps/Gradle/gradle-4.9
+export PATH=$GRADLE_HOME/bin:$PATH
+
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_51.jdk/Contents/Home
+export PATH=$JAVA_HOME/bin:$PATH
+
+export GRADLE_OPTS="-Dorg.gradle.daemon=true"
+
+- gradle use Groovy
+  - gradle built in Java
+  - main root object is called delegate {}
   
-- 
+- entire build script delegates to a project object
+  - similar how a closure can have a delegate object
+  - so:
+    - project.task("myTask1) -> task("myTask1) -> task "myTask1" -> task myTask1
+    
+- gradle -b marc.gradle tasks
+- gradle -q
+  - quiet mode
+  
+- task elements
+  - description: 
+  - group: (will show above the task in gradle task commands)
+  - doLast {}: the coammnds to run
+    - also
+      - diFirst {}
+      - leftShift {}
+      - << {}
+    
+- dependencies
+  - dependsOn
+    - other task must be run first
+  - finalizedBy
+    - will run other task aftewards
+  - shouldRunAfter
+    - will order accordingly if run both tasks; can be ignored if it will cause cyclicality
+  - mustRunAfter
+  - can also declare dependency in sub task block for that task
+    - ie: putOnSoes.mustRunAfter takeShower
+  - can also use closure
+    - ie: dependsOn tasks.matching{ task -> task.name.startsWith("putOn")}
+    
 

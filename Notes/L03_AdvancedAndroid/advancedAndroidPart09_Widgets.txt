@@ -1,0 +1,15 @@
+
+Espresso
+
+My Notes:
+---------
+- widgets like home screen icons, but with extra information
+  - like weather data for weaher widget
+  - resizable and info in it can chaange with the space it has
+  
+  
+  
+
+Udacity Notes:
+--------------
+
