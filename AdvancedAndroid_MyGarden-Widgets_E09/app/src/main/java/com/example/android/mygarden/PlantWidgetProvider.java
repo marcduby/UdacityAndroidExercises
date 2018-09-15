@@ -1,9 +1,13 @@
 package com.example.android.mygarden;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RemoteViews;
+
+import com.example.android.mygarden.ui.MainActivity;
 
 /**
  * Implementation of App Widget functionality.
@@ -13,15 +17,40 @@ public class PlantWidgetProvider extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
+        // E-01: replaced with image, so not needed
+//        CharSequence widgetText = context.getString(R.string.appwidget_text);
+
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.plant_widget_provider);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+
+        // E-02: adding service launch to the widget as well
+        Intent wateringIntent = new Intent(context, PlantWateringService.class);
+        wateringIntent.setAction(PlantWateringService.ACTION_WATER_PLANTS);
+        PendingIntent pendingWateringIntent = PendingIntent.getService(context, 0, wateringIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.widget_water_button, pendingWateringIntent);
+
+
+        // E-01: replaced with image, so not needed
+//        views.setTextViewText(R.id.appwidget_text, widgetText);
+
+        // E-01: add the pending intent for the MainActivity class
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+        // E-01: set the onclick listener for the pending intent
+        views.setOnClickPendingIntent(R.id.widget_plant_imageview, pendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
+    /**
+     * called when new widget is created and every widget interval
+     *
+     * @param context
+     * @param appWidgetManager          - gives information on all widgets on the home screen
+     * @param appWidgetIds
+     */
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
