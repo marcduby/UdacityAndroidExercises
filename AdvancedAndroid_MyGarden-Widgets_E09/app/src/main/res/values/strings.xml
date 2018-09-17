@@ -15,4 +15,6 @@
     <string name="since_watered">Since watered</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+
+    <string name="empty_view_text">No plants in the application</string>
 </resources>

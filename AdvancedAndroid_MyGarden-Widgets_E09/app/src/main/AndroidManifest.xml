@@ -11,6 +11,10 @@
 
         <service android:name=".PlantWateringService" />
 
+        <service
+            android:name=".PlantGridWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <provider
             android:name=".provider.PlantContentProvider"
             android:authorities="com.example.android.mygarden"
