@@ -6,10 +6,55 @@ My Notes:
 - widgets like home screen icons, but with extra information
   - like weather data for weaher widget
   - resizable and info in it can chaange with the space it has
+  - communicate with app using broadcast messages
+    - so widget is a broadcast receiver
+    - so widget provider needs to be registered in the manifest as a reciver
+    
+    
+- to add widgets
+  - new class extending AppWidgetProvider
+  - WidgetProviderInfo xml file, in xml folder
+    - provides configuration of widget (size, etc)
+  - WidgetLayout file, which provides the widget views
   
+- notes
+  - widgets based on RemoteView, so somewhat limited as opposed to regular views
+    - no all views can be added (no RV, ConstraintLayout)
+  - widgets cannot have onclick handlers
+    - they launch pending intents instead
+      - pending intent is wrapper around regular intent that enables other apps to use the intent
+      - NB: peding intents can launch either services, activities or broadcast
+      
+  - to create widget, right click on 'app' and select widget sub menu
   
+- widget collection views
+  - for list or grid views
+  - for regular list view, create adapter
+    - for widget, create a RemoteViewsFactory, which is a wrapper around an adapter
+    - onBindViewHolder() replaced by getViewAt() method
+    - also need RemoteViewsService that can request remote adapter access to remote views
+      - will also need to register it in the manifest
+      
+    
   
 
 Udacity Notes:
 --------------
+
+Widget Margins
+Since Android API 14 and onwards, Android automatically includes margins between widgets as they appear on the user's home screen.
+
+However, on previous API versions this was not the case, so it's still a good idea to specify a margin to include around the widget on devices running Android versions less than 14.
+
+This is a case where we can exploit the fact that we have values folders targeting these two categories of user API levels. We will define the margins in our XML layout file by referring to a dimension resource. Under the "values" directory, we've created a new file named "dimens.xml"
+
+
+To prevent newer Android versions from using this margin (since they already include a built in margin):
+
+A new "values-v14" folder contains a copy of that file which targets API levels from 14 onwards, however the margin value here is set to 0dp.
+
+
+Now when the XML layout refers to this dimension value using its name, a value of zero will be used on devices running API 14 plus and a value of 8dp will be used otherwise.
+
+
 

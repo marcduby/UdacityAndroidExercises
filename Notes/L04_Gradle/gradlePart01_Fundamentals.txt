@@ -13,12 +13,12 @@ My Notes
   - if not, gradle will be installed
   
 - gradle daemon
-  - android studio always uses the daemon, which mitigates gradel startup times
-  - from command line, have to manually instantiate thee daemon
+  - android studio always uses the daemon, which mitigates gradle startup times
+  - from command line, have to manually instantiate the daemon
   - gradle --stop
     - will stop daemon
   - export GRADLE_OPTS="-Dorg.gradle.daemon=true"
-    - will start daemon first time gradel run
+    - will start daemon first time gradle runs
     - subsequent command runs a lot faster
     
 - shell script
@@ -30,7 +30,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 export GRADLE_OPTS="-Dorg.gradle.daemon=true"
 
-- gradle use Groovy
+- gradle uses Groovy
   - gradle built in Java
   - main root object is called delegate {}
   
@@ -45,8 +45,8 @@ export GRADLE_OPTS="-Dorg.gradle.daemon=true"
   
 - task elements
   - description: 
-  - group: (will show above the task in gradle task commands)
-  - doLast {}: the coammnds to run
+  - group: (will show above the task in 'gradle task' commands)
+  - doLast {}: the commands to run
     - also
       - diFirst {}
       - leftShift {}
@@ -56,13 +56,106 @@ export GRADLE_OPTS="-Dorg.gradle.daemon=true"
   - dependsOn
     - other task must be run first
   - finalizedBy
-    - will run other task aftewards
+    - will run other task afterwards
   - shouldRunAfter
     - will order accordingly if run both tasks; can be ignored if it will cause cyclicality
   - mustRunAfter
   - can also declare dependency in sub task block for that task
-    - ie: putOnSoes.mustRunAfter takeShower
+    - ie: putOnShoes.mustRunAfter takeShower
   - can also use closure
     - ie: dependsOn tasks.matching{ task -> task.name.startsWith("putOn")}
     
+- Tasks
+  - copy, del, zip -> typeed tasks
+    - 'task copyFiles(type: Copy)'
+  - tasks with actions implemented in the build scriipt using doLast() -> adhoc task
+  - methods
+    - onlyIf -> true/false to run at runtime
 
+- typed tasks    
+  - examples
+
+task copyJpegs(type: Copy) {
+  from 'images'
+  include '*.jpg'
+  into 'build'
+}
+
+task copyImageFolders(type: Copy) {
+  from('images') {
+    include '*.jpg'
+    into 'jpeg'         // will go into build/jpeg
+  }
+  from('images') {
+    include '*.gif'
+    into 'gif'          // will go into build/gif
+  }
+  into 'build'
+}
+
+task zipImages(type: Zip) {
+  baseName = 'images'
+  destinationDir = file('build')        // will go into build/images.zip
+  from 'images'
+}
+    
+task deleteBuild(type: Delete) {
+  delete 'build'
+}
+
+- incremental builds
+  - if input/output of task doesn't change, those tasks will be skipped
+  
+- properties for gradle builds
+  - gradle.properties file
+    - kay = value
+    - ex: greeting = "Hello"
+  - -P option
+    - ex: gradle -pgretting = "Hello" printGreeting
+  - in the ext{} closure
+    - ex: ext { greeting = "Hello from ext" }
+  - order is: command line > ext > properties file
+  
+- defining custom tasks
+  - extend DefaultTask
+  - for actions, simpply create a method with a @TaskAction annotation
+  
+  - ex:
+  class HelloTask extends DefaultTask {
+  String firstName
+  
+    @TaskAction
+    void doAction() {
+      print "Hello World and $firstName!"
+    }
+  }
+  
+  task helloName(type: HelloTask) {
+    firstName = 'Dude'
+  }
+
+- gradle logging
+  - 6 levels
+    - debug (d)
+    - info (-i)
+    - lifecycle (default)
+    - warning -> will display even if told gadle to be quiet
+    - quiet (-q)
+    - error
+  - stacktrace
+    - gradle --stacktrace
+    - gadle -s
+  - full stacktrace
+    - gradle --full-stacktrace
+    - gradle -S
+    
+- phases of gradle build
+  - initialization
+    - set up multi project builds
+  - configuration
+    - build script is execute which configures all the projects's tasks
+  - execution
+  
+  
+    
+    

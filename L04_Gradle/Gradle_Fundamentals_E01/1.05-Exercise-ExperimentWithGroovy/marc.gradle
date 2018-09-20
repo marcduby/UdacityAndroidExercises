@@ -1,0 +1,9 @@
+task foo {
+    description "dude task"
+    group "dude group list"
+    doLast {
+      def foo = "bar"
+      println "$foo + foo = ${foo + "foo"}"
+    }
+}
+
