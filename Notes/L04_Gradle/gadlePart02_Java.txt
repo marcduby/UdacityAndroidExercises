@@ -1,0 +1,79 @@
+
+
+My Notes:
+---------
+
+- plugins
+  - to extend gradle for new domain
+  - ex
+    - apply plugin: 'java'
+    
+
+- gradle uses convention ovr configuration
+
+- gradle java expected directory structure
+  - src
+    - main
+      - java
+      - resources
+    - test
+      - java
+      - resources
+    
+  - build
+    - classes
+      - main
+      - test
+    - libs
+
+
+- gradle -b marc.gradle -i assemble
+
+- look at lecture 10 for how to hunt down documentsyion
+
+- external repositories and dependencies
+  - most common repositories
+    - mavenCentral()
+    - jcenter()
+  - ie:
+    - testCompile 'junit:junit:4.12'
+    
+- repositories
+  - foleder full of jars
+  - ie:
+    repositories {
+      flatDir {
+        dirs 'libs'
+      }
+    }
+  
+  - remote
+  - ie:
+    repositories {
+      mavenCentral()
+      mavenLocal()
+      jcenter()
+    }
+    
+  - maven and ivy repositories
+  - ie:
+    repositories {
+      maven {
+        uel 'https://repo.foo.org/m2'
+      }
+    }
+    
+    
+    
+    
+    
+
+
+Udacity Notes:
+--------------
+
+
+
+
+
+

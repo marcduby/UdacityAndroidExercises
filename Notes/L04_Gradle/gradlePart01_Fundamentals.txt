@@ -154,7 +154,9 @@ task deleteBuild(type: Delete) {
     - set up multi project builds
   - configuration
     - build script is execute which configures all the projects's tasks
+    - when DAG is built up
   - execution
+    - every thing is executed
   
   
     

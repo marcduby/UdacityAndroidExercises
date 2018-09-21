@@ -5,7 +5,7 @@ My Notes:
 ---------
 - widgets like home screen icons, but with extra information
   - like weather data for weaher widget
-  - resizable and info in it can chaange with the space it has
+  - resizable and info in it can change with the space it has
   - communicate with app using broadcast messages
     - so widget is a broadcast receiver
     - so widget provider needs to be registered in the manifest as a reciver
