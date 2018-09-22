@@ -1,0 +1,17 @@
+
+
+My Notes:
+---------
+
+- google provides android gradle plugin
+
+- android studio
+  - run gradle
+    - fromm the terminal at the bottom pane
+       - might have to do 'chmod +X gradlew' before
+    - also gradle pane on the right
+    
+
+
+Udacity Notes:
+--------------
