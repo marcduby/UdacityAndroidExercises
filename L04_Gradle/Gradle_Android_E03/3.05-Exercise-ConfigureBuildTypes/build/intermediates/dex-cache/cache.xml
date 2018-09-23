@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/Users/mduby/Apps/WorkspaceGoogleScholar/UdacityAndroidExercises/L04_Gradle/Gradle_Android_E03/3.05-Exercise-ConfigureBuildTypes/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.1.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="6d7d803871e3203465f71a163e7af104f807b446">
+        <dex dex="/Users/mduby/Apps/WorkspaceGoogleScholar/UdacityAndroidExercises/L04_Gradle/Gradle_Android_E03/3.05-Exercise-ConfigureBuildTypes/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-24.1.1_6e773ccbe376fd1358915c04a6d71ca1b45a17c4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mduby/Apps/WorkspaceGoogleScholar/UdacityAndroidExercises/L04_Gradle/Gradle_Android_E03/3.05-Exercise-ConfigureBuildTypes/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.1.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="1256c10604bb098490eab070d76754ac5ceab35c">
+        <dex dex="/Users/mduby/Apps/WorkspaceGoogleScholar/UdacityAndroidExercises/L04_Gradle/Gradle_Android_E03/3.05-Exercise-ConfigureBuildTypes/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-24.1.1_70b2a0a805d047cf9337a7614af640ef90a699ae.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mduby/Apps/WorkspaceGoogleScholar/UdacityAndroidExercises/L04_Gradle/Gradle_Android_E03/3.05-Exercise-ConfigureBuildTypes/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.1.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="c936c1bd42f0c018c18920c7bec619ef056b24f8">
+        <dex dex="/Users/mduby/Apps/WorkspaceGoogleScholar/UdacityAndroidExercises/L04_Gradle/Gradle_Android_E03/3.05-Exercise-ConfigureBuildTypes/app/build/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-24.1.1_82d9d34f397c70abd864e41f4abbd906994abfd8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mduby/Apps/WorkspaceGoogleScholar/UdacityAndroidExercises/L04_Gradle/Gradle_Android_E03/3.05-Exercise-ConfigureBuildTypes/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.1.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="f62e763609f65e47dc6c498760a4accf02776788">
+        <dex dex="/Users/mduby/Apps/WorkspaceGoogleScholar/UdacityAndroidExercises/L04_Gradle/Gradle_Android_E03/3.05-Exercise-ConfigureBuildTypes/app/build/intermediates/pre-dexed/debug/com.android.support-support-vector-drawable-24.1.1_bc40ae255bf1cbbbc1321d7015be88e2bb480338.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mduby/Apps/WorkspaceGoogleScholar/UdacityAndroidExercises/L04_Gradle/Gradle_Android_E03/3.05-Exercise-ConfigureBuildTypes/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.1.1/jars/libs/internal_impl-24.1.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="f78c2f395cb096f9dc1dc07e729922b8fcd3c4f5">
+        <dex dex="/Users/mduby/Apps/WorkspaceGoogleScholar/UdacityAndroidExercises/L04_Gradle/Gradle_Android_E03/3.05-Exercise-ConfigureBuildTypes/app/build/intermediates/pre-dexed/debug/internal_impl-24.1.1_c0f656652c203c1246694bb4096193ced73a52d1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mduby/Apps/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/24.1.1/support-annotations-24.1.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="3af19f153122737b372622fa6c81dd11a1c6b999">
+        <dex dex="/Users/mduby/Apps/WorkspaceGoogleScholar/UdacityAndroidExercises/L04_Gradle/Gradle_Android_E03/3.05-Exercise-ConfigureBuildTypes/app/build/intermediates/pre-dexed/debug/support-annotations-24.1.1_c628305bc1d8139842f2acc2820b6097165013d6.jar" />
+    </item>
+
+</items>

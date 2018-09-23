@@ -1,0 +1,55 @@
+
+My Notes:
+---------
+
+- 2 ways to creat libraries for android projects
+  - .jar
+    - java library
+  - .aar
+    - for android library
+    - can include its own resources or manifest
+      - such as layouts or fragments
+  - note: its easier to ruen java libs into android libs than the other way around
+  
+- multi project builds
+  - multi project gradle setuo
+  - ie:
+    myproject
+      - libraries
+        - javaLib
+        - androidLib
+      - app1
+      - app2
+  - specified by settings.gradle file in the root of the project
+    - built by default for all android projects
+    - android studio refers to sub projecst as modules
+    - ie:
+      - include ':app', ':javaJokes'
+    - can view what projects there are by running './gradlew projects'
+    - then create a dependency in the andorid project gradle bile
+    - ie:
+      dependencies {
+        ...
+        compile project(':javaJokes')
+      }
+      
+- android libraries
+  - like android apps, but can't be installed by themselves
+    - ave to be packaged in other apps
+    
+      
+
+
+Udacity Notes:
+--------------
+
+
+The code for this exercise is in the 4.02-Exercise-CreateAJavaLibrary folder.
+
+One thing we didn't mention in this video (but have since added to the course code), is that Java libraries for use with Android Studio need to be built with Java 7. Java 8 won't work. Thankfully it's just one line to tell the Gradle Java plugin to use Java 7:
+
+sourceCompatibility = 1.7
+
+
+
+

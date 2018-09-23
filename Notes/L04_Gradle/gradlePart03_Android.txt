@@ -11,7 +11,149 @@ My Notes:
        - might have to do 'chmod +X gradlew' before
     - also gradle pane on the right
     
+- android plugin
+  - can build variants of the app
+    - one for testing
+    - onefor the play store
+    - free/pay version of app
+  - heps manage dependencies on er variant basis
+  - can override resources and manifest entroes on per variant basis
+  - also provides application signing, pro guarding, esting
+  
+  
+- gradle android config
+  - 2 lines needed
+    - comipleSdkVersion, buildToosversion
+  - configuration (defaultConfig block)
+    - definees android attributes of the android manifest
+    
+- application variants
+  - free/paid versions (product flavor)
+    - product flavor will map 1 to 1 with a play store download
+  - debug/release versions (build type)
+    - debug used dueing dev
+    - release goes  to play store
+    - can also add qa build type
+  - how
+    - simply write code that is unique to each variant and let gradle handle the rest
+  - bbuild types are decleard\ed in the 'android' script block
+    - ie:
+      android {
+        compileSdkVersion 22
+        buildToolsVersion "22.0.1"
+        
+        buildTyes {
+          release {
+            minifyEnabled false         // disbales package optimizations
+            proguardFiles getDefaulProguardFile(...)
+          }
+          
+          // can add new build type
+          qaAndroid {
+            ...
+          }
+        }
+      }
+      
+  - look at buildVariants pane on bottom left side
+  
+    
+- resource merging
+  - source sets built by android
+    - main (defeult)
+    - free
+    - paid
+    - debug
+    - release
+    - free debug
+    - free release
+    - paid debug
+    - paid release
+  - more specific configs override the less specific configs
+    - but class iles cannot be overriden
+    - for resouces, files will be merged and resource overriden by ID
+    
+- declaring application flavors
+  - similar to build types
+  - new options will appear in 'Build Variants' tab (bottom left pane)
+  
+    - ie:
+      android {
+        compileSdkVersion 22
+        buildToolsVersion "22.0.1"
+        
+        buildTyes {
+          ...
+        }
+        
+        productFlavors {
+          free {
+            applicationId "com.dud.yoyoma.free"
+          }
+          paid {
+            applicationId "com.dud.yoyoma.pid"
+          }
+        }
+  
+- assinging dependencies to build variants
+  - if want to only add ads to free version
+    ie:
+      dependencies {
+        freeCompile 'com.google.android.gms:play-services-ads:7.0.0'
+      }
 
+- other options for product flavors
+  - can use them for screen resoulution in case of large image libraries
+    - keeps apk down per screen res release
+    
+- configuring android variants
+  - problem is tasks are generated during the script, so can't refence them in the scripts
+  - Android has 3 types of variat groups
+    - application variant
+    - library variant
+    - test variant
+  - graxle uses live colections
+    - ie:
+      applicationVariants.all {
+        if (buildType.name == 'debug') {
+          javaCompile.options.compilerArags = ['verbose']
+        }
+      }
+      
+      
+    
 
 Udacity Notes:
 --------------
+- Lesson 08 gradle update errors lists:
+Android Gradle Plugin Update
+When new Gradle and Android Gradle Plugin versions are released, you may see a pop-up message like this:
+
+
+Updating is optional, and the process usually runs seamlessly with one click. Nevertheless, migration to Android Gradle Plugin 3.0.0 from previous versions might require some extra manual fixes depending on the specifics of your build.gradle file. If that is the case, here is a list of common problems and errors shown in Android Studio during the update process, and instructions on how to fix them.
+
+
+The specified Android SDK Build Tools version (23.0.2) is ignored, as it is below the minimum supported version (25.0.0) for Android Gradle Plugin 3.0.0-beta4.
+
+Android SDK Build Tools 26.0.0 will be used.
+
+To suppress this warning, remove "buildToolsVersion '23.0.2'" from your build.gradle file, as each version of the Android Gradle Plugin now has a default version of the build tools.
+
+Solution: Update the buildToolsVersion to the minimum required by the Android Gradle Plugin or later. Alternatively, click on Update Build Tools to let Android Studio update it for you.
+
+All flavors must now belong to a named flavor dimension.
+
+Solution: Add dimensions to build.gradle.
+
+
+Failed to resolve: com.android.support:appcompat-v7:26.0.1
+
+Solution: Add Google maven repository. Alternatively, click on Install Repository and sync project to let Android Studio update it for you.
+
+
+Execution failed for task ':app:processFreeDebugManifest'. > Manifest merger failed : uses-sdk:minSdkVersion 10 cannot be smaller than version 14 declared in library [com.android.support:appcompat-v7:26.0.1] /Users/josenieto/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/dab71f908316359e65255f92761bcddc/AndroidManifest.xml as the library might be using APIs not available in 10 Suggestion: use a compatible library with a minSdk of at most 10, or increase this project's minSdk version to at least 14, or use tools:overrideLibrary="android.support.v7.appcompat" to force usage (may lead to runtime failures)
+
+Solution: Update minSDK to 14 or higher. Note that targeting API 26 is not compatible with supporting SDK versions lower than 14.
+
+
+
