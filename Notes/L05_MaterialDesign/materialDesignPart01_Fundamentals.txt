@@ -19,9 +19,9 @@ My Notes:
     
 - design for small screen first
   - start with lowest common denominator
-    - design for easy use with buttons on slamll screens
+    - design for easy use with buttons on small screens
     - hard to view tablet UI on a phone
-  - also helps simplify and prioritize what goes intot he UI
+  - also helps simplify and prioritize what goes into the UI
   
 - density buckets
   - sizes
@@ -44,13 +44,13 @@ My Notes:
     - stores color in pixel information
     - can be scaled down with no problem, but get blurring on scale up
   - inkscape, illustrator and sketch use vector graphics
-    - stores infor abotu indovidual shape in image (center, radius if circle)
+    - stores information about individual shape in image (center, radius if circle)
     
 - resource qualifiers
   - ie:
     - res
       |- anim
-      |- drawable           -> use for xml shaoes
+      |- drawable           -> use for xml shapes
       |- drawable-hdpi      -> 240
       |- drawable-mdpi      -> 160
       |- drawable-nodpi     -> put things that shouldn't scale based on density (ie: background images)
@@ -62,16 +62,16 @@ My Notes:
       
   - segment by screen size
     - ie: res/layout-w600dp/myactivity.xml
-  - segmnt by android build
-    - ie: res/values-v21/styles.xml            (loolipop and above)
+  - segment by android build
+    - ie: res/values-v21/styles.xml            (lollipop and above)
   - segment for specific languages
-    - ie: res/drawable=mdpi-ja/localicon.jpg    (japan)
+    - ie: res/drawable=mdpi-ja/localicon.jpg    (japanese)
     
 - state lists drawables
   - states
     - default
     - pressed
-    - chacked
+    - checked
     - checked, pressed
   - use state lists
     - ie: res/drawable/checkbox.xml
@@ -93,21 +93,75 @@ My Notes:
     
   - android traverses list and looks for first state that matches
     - so put more complicated states at top
-  - other states
+  - other widget states
     - activated, focused, etc
   - can also create own states
   
     
 - UI
-  - nesyed tree thta is called the view hierarchy
+  - nested tree that is called the view hierarchy
     - from view group to leaf views (textviews, buttons)
   - can create objects in code or xml file
-    - xml file preferable to help seperate UI from biz lgic (presentatin vs behavior)
-  - all view shave params
+    - xml file preferable to help seperate UI from biz lgic (presentation vs behavior)
+  - all views have params
     - some are common params (width, height)
-    - soem soecific to a view (background of a button)
+    - some soecific to a view (background of a button)
     
-    
+- layouts
+  - box model
+    - every element has content bounds, which  is ectangular (like html)
+    - object bounds also contain padding
+    - space between object bounds is called margins
+  - padding vs margin
+    - if want space to be part of the object, use padding
+      - want to be part of the object when
+        - want extra touch area
+        - want larger backgound of object
+  - note: usually don't apply borders; this is done using background images
+  - types of layout
+    - frameLayout arranges view one on top of the other
+      - good for overlapping cntent
+    - linearLayout arranges children in single direction
+    - relativeLayout arranges chold views relative to eah other
+      - or its own bounds
+      - has performance implications, especially as root layout
+    - gridLayout
+      - each child has a row or column in that grid
+      - child has weight property to fill column or row
+      - great for aligning content along mutipe axis
+    - scrollViw has one single child that you can scroll its contents
+    - listView
+      - also recyclerView
+      - as well as viewpager
+        - lets you horizontally page through individual items
+        
+- example layouts
+  - gmail
+    - Linearlayout          (orientation=vertical)
+      |- Toolbar            (layuout_widtht=match, layout-height=56dp)
+      |_ FrameLayout        (layout_weight=1, layout_heit=0)            -> so 'new' button overlaps list
+        |- ListView         (layout_width=match, layout_height=match)
+        |_ Button           (layout_gravity=bottom|right, margin=16dp)
+        
+  - adding new contact
+    - LineartLayout         (orientation=vertical)
+      |- Toolbar            (layout_widht=match, layout_heigh=56dp)
+      |- ScrollView         (layout_weight=1, layout_heoght=0)
+        |_ GridLayout       (layout_heigt=wrap, orientation=vertical)       -> height of scorll view child should based on its contents
+        
+  - app detail page in play store
+    - FrameLayout
+      |- ImageView          (scaleTyoe-centerCrop, layout_height=200dp)
+      |- ScrollView         (layout_height=math, layout_width=match, paddingTop=200dp, clipToPadding=false)
+        |_ Linearlayout     (orientation=vertical, background=white)
+        |- ...
+        |- HorizontalScrollView
+          |- LinearLayout
+      |- Toolbar            (layotu_width=match, layout_height=56dp)           -> will display over image at top
+        
+- layout tips
+  - if use layout_height = 0 -> tells that we are nit using fixed height and will work out height later
+  
     
 
 
