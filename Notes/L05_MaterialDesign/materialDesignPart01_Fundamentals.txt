@@ -163,6 +163,46 @@ My Notes:
   - if use layout_height = 0 -> tells that we are nit using fixed height and will work out height later
   
     
+- UI conventions/patterns
+  - toolbar
+    - horizontal bar used to display actions and titles in your layout
+      - laft navigation area (bck arrow)
+      - middle title
+      - right actions (search, like, hamburger)
+        - hambutrger overflow menu will expad vertically into listview of options
+    - toolbar is view group, so can add children to it
+    - generally use standard height which varies by screen size
+    - good place to embed your brands color
+
+  - app bar
+    - special case of toolbar where it is placed at the very tiop of screen
+    - left navigation icon can provide access to screen level navigation optionss
+    - can use extendded height to provide space for branding
+    
+  - tabs
+    - always appear at top of screen
+    - can switch between them using swipe gesture
+    - will sit on same surface as app bar
+    
+  - navigation drawer
+    - panel that slides in from left of scren
+    - closely associated with hamburger icon
+    
+  - scrolling and paging
+    - scroll vertically to seee more information on a creen
+    - do not scroll horizontcally for text content; hard to read
+    - scroll horizontally when switch between pages of content
+      - email or new stories
+      - can switch between tabs usign horizontal scrollin
+
+  - list view to details view
+    - can also have both on same screen on tablet
+    
+  - deviate fom patterns with purpose
+    - only do so if makes sense
+    
+
+- themes and styles
 
 
 
