@@ -119,7 +119,8 @@ My Notes:
           javaCompile.options.compilerArags = ['verbose']
         }
       }
-      
+    - collections allows for configrations of objects that don't yet exist
+    
       
     
 

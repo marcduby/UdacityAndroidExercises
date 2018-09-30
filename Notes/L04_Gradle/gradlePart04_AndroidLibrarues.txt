@@ -35,9 +35,27 @@ My Notes:
       
 - android libraries
   - like android apps, but can't be installed by themselves
-    - ave to be packaged in other apps
+    - have to be packaged in other apps
+  - use the android 'new' wizard to create the library
+    - it will create all the new files for you
+    - right click on the project for the drop down wizard
+
+- application signing
+  - verifies identity of dev who deployed app
+  - verifies that the app hasn't been tampered with since signing
+  - google signs debug apps with debug key
+    - this allows apps to install on development devices
+    - but those cannot be published tto the play store
+  - to publich app
+    - first generate key
+    - unique to you, to be used to publish all your apps
+    - also create keystore to keep key in
+  - signing app provides criptographic way to associate app with your key
+  - 3 spetsp
+    - create keystore
+    - create signing config in build.gradel file
+    - assign signing config to build type
     
-      
 
 
 Udacity Notes:

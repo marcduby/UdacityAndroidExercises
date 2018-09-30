@@ -141,6 +141,7 @@ public class PlantWidgetProvider extends AppWidgetProvider {
 //        Intent appIntent = new Intent(context, PlantDetailActivity.class);
         Intent appIntent = new Intent(context, MainActivity.class);
         PendingIntent appPendingIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         // E-05: can incorporate the templaet intent; I skipped and had regular intent
         views.setPendingIntentTemplate(R.id.plant_widget_grid_view, appPendingIntent);
 //        views.setOnClickPendingIntent(R.id.plant_widget_grid_view, appPendingIntent);

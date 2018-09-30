@@ -1,0 +1,116 @@
+
+
+
+
+My Notes:
+---------
+
+- design
+  - must work on large size of devices
+    - tv, watch, phone, tablet
+    
+- screen resoultion
+  - ignore pixels, does not take into acccount screen size
+    - android 1.6 (donut) introduced design on multiple device screen types
+  - density independent pizel (dp or dip)
+    - one pixel at 160 dpi baseline density
+      - so get 2 pixels at 320 dpi (slaso known as 2x)
+    - dpi: dots per inch
+    
+- design for small screen first
+  - start with lowest common denominator
+    - design for easy use with buttons on slamll screens
+    - hard to view tablet UI on a phone
+  - also helps simplify and prioritize what goes intot he UI
+  
+- density buckets
+  - sizes
+    - ldpi,   120 dpi,    0.75x
+    - mdpi,   160 dpi,    1x
+    - hdpi,   240 dpi,    1.5x
+    - xhdpi,  320 dpi,    2x
+    - xxhdpi, 480 dpi,    3x
+    - xxxhdpi, 640 dpi,   4x
+  - usually only worry about the middle 4 (mdpi, hdpi, xhdpi, xxhdpi)
+  - buckets help with scaling of graphic icons
+  - for asset cripsness, usally ok to just provide for xhdpi and xxhdpim and let android scale them down
+    - down sampling has risk -> performance, and not perfect
+    - use Android Asset Studio for creating icons
+      - it will create for the 4 buckets
+      -
+
+- vector vs bitmap
+  - photoshop and gimp work mostly with rastr graphics
+    - stores color in pixel information
+    - can be scaled down with no problem, but get blurring on scale up
+  - inkscape, illustrator and sketch use vector graphics
+    - stores infor abotu indovidual shape in image (center, radius if circle)
+    
+- resource qualifiers
+  - ie:
+    - res
+      |- anim
+      |- drawable           -> use for xml shaoes
+      |- drawable-hdpi      -> 240
+      |- drawable-mdpi      -> 160
+      |- drawable-nodpi     -> put things that shouldn't scale based on density (ie: background images)
+      |- drawable-xhdpi     -> 320
+      |- drawable-xxhdpi    -> 480
+      |- layout
+      |- values
+      |- xml
+      
+  - segment by screen size
+    - ie: res/layout-w600dp/myactivity.xml
+  - segmnt by android build
+    - ie: res/values-v21/styles.xml            (loolipop and above)
+  - segment for specific languages
+    - ie: res/drawable=mdpi-ja/localicon.jpg    (japan)
+    
+- state lists drawables
+  - states
+    - default
+    - pressed
+    - chacked
+    - checked, pressed
+  - use state lists
+    - ie: res/drawable/checkbox.xml
+    
+    <selector>
+      <item
+        android:state_pressed="true"
+        android:state_checked="true"
+        android:drawable="@drawable/box_checked_pressed>
+      <item
+        android:state_pressed="true"
+        android:drawable="@drawable/box_pressed>
+      <item
+        android:state_checked="true"
+        android:drawable="@drawable/box_checked>
+      <item 
+        android:drawable="@drawable/box_default>
+    </selector>
+    
+  - android traverses list and looks for first state that matches
+    - so put more complicated states at top
+  - other states
+    - activated, focused, etc
+  - can also create own states
+  
+    
+- UI
+  - nesyed tree thta is called the view hierarchy
+    - from view group to leaf views (textviews, buttons)
+  - can create objects in code or xml file
+    - xml file preferable to help seperate UI from biz lgic (presentatin vs behavior)
+  - all view shave params
+    - some are common params (width, height)
+    - soem soecific to a view (background of a button)
+    
+    
+    
+
+
+
+Udacity Notes:
+--------------
