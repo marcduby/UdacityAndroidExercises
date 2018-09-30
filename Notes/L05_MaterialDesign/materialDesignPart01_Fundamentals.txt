@@ -203,7 +203,32 @@ My Notes:
     
 
 - themes and styles
-
+  - similar to css on the web
+  - style
+    - changes appearance of a single UI element
+  - theme
+    - same syntax as a style
+    - applies collection of styles to element, activity or whole application
+    - themes cascade to its children
+  - ie: to create all pink buttons, create style for pink color and apply it to whole application theme
+  - res/values/styoyles.xml
+  
+  
+- resources
+  - look at github.com/google/iosched
+  - list on wikipedia of open source android apps
+  
+- 4 main titles of material design titles
+  - tangible surfaces
+    - surfaces that we can touch and reast to out input
+  - bold graphic designg
+    - print layout
+  - meaningful motion
+    - motion that guides the user
+  - adaptive design
+    - UIs that look great not matter how large or small the screen
+    
+  
 
 
 Udacity Notes:
