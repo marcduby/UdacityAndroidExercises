@@ -3,6 +3,60 @@
 My notes:
 ---------
 
+- afordances
+  - intuition/learned expectations based on previous experiences (how paper feels)
+  -
+  
+- material design
+  - imagine UIs are pieces of paper, called surfaces
+  - in general, objects that are closer to us command more of our visual attantion
+    - make objects appear closer based on size and how they cast shadows
+    - so use depth as a cue in our UI to direct attention to our important elements
+      - SO SURFACES NEAR TO YOU WILL CAST A LARGER SHADOW
+  
+- surface
+  - container for your content
+  - provides groupng and seperation fromother elemnts
+  - ie:
+    - for list view, put app bar and list on seperate surfaces
+    - do not split items in list into individual surfaces
+      - that lakes reading through and slower and scanning harder
+      - use subtle seperator
+  - ie:
+    - google notes
+      - use seperate items in list as seperate surfaces since they are not related
+  - rules
+    - if contanet is homogenous and scanning/comparing is important
+      - belongs on shared surface
+      - use simple line seperator
+    - for collection of heterogeneous items, then each have their own surface
+    - too many suraces on screen at once can be distracting
+      - try to avoid having more than 5 on screen at once
+
+  - in android
+    - surface is a container that cast a shadow
+    - create them by setting 'bakground' and 'elevation' values in the layout elements
+    
+- elevation
+  - standard elevations
+        Nav drawer: 16dp
+        App bar: 4dp
+        Card: 1dp to 8dp
+        FAB: 6dp
+        Button: 2dp to 8dp
+        Dialog: 24dp
+
+- floating action button
+  - FAB
+    - vibrant button that floats above rest of content in your app
+    - way of promoting prominet action
+    - have standrd sizes and elevations
+      - 40dp or 56dp
+      - usually have resting elevation of 6dp rising to 12 dp when pressed
+    - only use single fab per screen
+    - if unclear which action should be a FAB, then probably don't need one on that screen
+    - FABs are meant for actions (new, scan, etc), not links to lists or settings
+
 
 
 Udacity Notes:
