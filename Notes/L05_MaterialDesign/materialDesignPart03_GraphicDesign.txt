@@ -1,0 +1,77 @@
+
+
+My Notes:
+---------
+- Gestalt Priciples
+  - laws of past experiences
+    - layouts that look familiar
+  - law of proximity
+    - items that are close together can be related
+    - good foe loists
+    - also fgood for elements on same line
+  - law of similarity
+  - use white space for the proximity
+  
+- material design
+  - uses 8dp grid to align components
+    - for images, icon sizes, spacing, margins -> use multuples of 8dp (40dp, 72dp, 16dp, etc...)
+  - text aligns to a 4dp baseline grid
+    - line heights are mutiples of 4dp (20dp)
+  - this helps apply our laws of groupin and keep things organized
+  
+  - keylines
+    - help order the lists
+      - also helps in quickly scanning the lists
+        - use 16dp margin from edge for icons (auxiliary content)
+        - use 72dp for text primary content
+    - dimesions files
+      - ie: different mrgins for diffferent form factors (phone/tablet)
+        - sw600dp/dimens.xml
+        - values/dimens.xml
+        
+        - use ->    android:layout_height="@dimen/art_detail_button_height"
+                    android:layout_width="@dimen/art_detail_button_width"
+    
+- material designg color paletts
+  - set of primary and secondary colors to use across the app
+  - primary color
+    - use it in the large blocks to make it recognozable
+  - accent color
+    - for the buttons, widgets
+    - brighter more saturated color to draw attention to certain elements
+  - then break the colors down into lightness ranges
+    - assign light index to lighter colors, and vice versa
+    - calibrate color on the middle color (500 shade), darket goes to 900, lighter goes to 100
+      - so 50, 100, 200, ..., 900
+    - accent colors will be A100 to A400
+  
+  - in app - Lesson 09
+    -ie: colors.xml
+    
+        <resources>
+          <color name="indigo_300">#7986CB</color>
+          <color name="indigo_500">#3F51B5</color>
+          <color name="indigo_700">#303F9F</color>
+          <color name="pink_a200">#FF4081</color>
+        </resources>
+    
+    - ie: styles.xml
+    
+        <resources>
+          <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+            <item name="colorPrimary">@color/indogo_500</item>
+            <item name="colorPrimaryDark">@color/indogo_700</item>
+            <item name="colorAccent">@color/pink_a200</item>
+          </style>
+        <resources>
+
+
+
+
+
+
+Udacity Notes:
+--------------
+
+
+

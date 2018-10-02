@@ -3,7 +3,7 @@
 My notes:
 ---------
 
-- afordances
+- affordances
   - intuition/learned expectations based on previous experiences (how paper feels)
   -
   
@@ -16,26 +16,26 @@ My notes:
   
 - surface
   - container for your content
-  - provides groupng and seperation fromother elemnts
+  - provides groupng and seperation from other elemnts
   - ie:
     - for list view, put app bar and list on seperate surfaces
     - do not split items in list into individual surfaces
-      - that lakes reading through and slower and scanning harder
-      - use subtle seperator
+      - that makes reading through and slower and scanning harder; easier when on same surface
+      - use subtle seperator instead
   - ie:
     - google notes
       - use seperate items in list as seperate surfaces since they are not related
   - rules
-    - if contanet is homogenous and scanning/comparing is important
+    - if content is homogenous and scanning/comparing is important
       - belongs on shared surface
-      - use simple line seperator
-    - for collection of heterogeneous items, then each have their own surface
-    - too many suraces on screen at once can be distracting
-      - try to avoid having more than 5 on screen at once
+      - use simple line seperator (like contacts list)
+    - for collection of heterogeneous items, then each have their own surface (like Google Keep)
+    - too many surfaces on screen at once can be distracting
+      - try to avoid having more than 5 surfaces on the screen at once
 
   - in android
     - surface is a container that cast a shadow
-    - create them by setting 'bakground' and 'elevation' values in the layout elements
+    - create them by setting 'background' and 'elevation' values in the layout elements
     
 - elevation
   - standard elevations
@@ -49,14 +49,72 @@ My notes:
 - floating action button
   - FAB
     - vibrant button that floats above rest of content in your app
-    - way of promoting prominet action
+    - way of promoting prominent action
     - have standrd sizes and elevations
       - 40dp or 56dp
       - usually have resting elevation of 6dp rising to 12 dp when pressed
-    - only use single fab per screen
+    - only use a single fab per screen
     - if unclear which action should be a FAB, then probably don't need one on that screen
     - FABs are meant for actions (new, scan, etc), not links to lists or settings
+    
+    - gradle dependencies
+      - compile 'com.android.support:appcompat-v7:222.2.2'
+      - compile 'com.android.support:design:22.2.0'
+      
+      - in activity_main.xml
+        <android.support.design.widget.FloatingActionButton
+          app:fabSize="normal"                          (56 dp)
+          app:elevation="6dp"
+          app:layout_gravity="end"                      (to right)
+          app:pressedTranslationZ="12dp"
+          
+          android:layout_height="wrap_content"
+          android_layout_width-"wrap_content"
+          android:layout_margin="16dp"
+          andrroid:id="@+id/fab_id"
+          android:src="@drawable/fab_plus"
+        />
+        
+      - to run, need to replace style from material to appcompat
+        - ie:
+          <style name="AppTheme" parent="android:Theme.Material.Light"/>
+          with
+          <style name="AppTheme" parent="android:Theme.AppCompat.Light"/>
+          
+- response to touch
+  - ripple effect on touch
+    - for borderless elements, ripple will go to edge of elements invisible area
+    - already included in the FAB library
+  - user initiated radial response
 
+- paper transformations
+  - circular reveals (lesson 15); gradual UI change between 2 looks/data
+    - ie:
+    Animator anim = ViewAnimationUtils.createCircularReveal(view, (int)view.getWidth()/2, (int)view.getHeight()/2, 0, finalRaduis);
+    view.getTexrView().setText("test");
+    view.setBackgroundColor(green);
+    anim.start();
+    
+    
+  - collapsing toolbar
+    - as list view scrolls to app bar, the app bar shrinks and lifts up to let items scroll below it
+    - use collapsing toolbar library/layout
+      - called seam to step transition
+      - start with CoordinatorLayout
+        - android.support.design.widget.CoordinatorLayout
+        
+        
+- final
+  - looked at how to use surfaces when scrolling and touching and how they react
+    - scroll content above/below or with toolbar
+    
+    
+    
+
+To Review:
+----------
+
+- lesson 02, step 13 -> button ripples
 
 
 Udacity Notes:
