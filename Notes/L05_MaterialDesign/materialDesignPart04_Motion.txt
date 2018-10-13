@@ -1,0 +1,243 @@
+
+
+My Notes:
+---------
+
+- transition manager
+  - introduced in kit kat
+  - uses captured start and end states, then executes transition on them
+  
+  - ie:
+    public void click(View view) {
+      Slide slie = new Slide();                 // slide transition
+      slide.setSlideEdge(Gravity.TOP);          // where to slide to
+      
+      ViewGRoup root = (ViewGroup)this.findById(android.R.id.content);
+      TransitionManager.beginDelayedTransition(root, slide);                    // execues delayed transition
+      imegaeViw.setVisibility(View.INVISIBLE);
+    }
+
+  - transition types
+    - api19 (ki kat): fade, auto transition, chaneg bounds, transition set
+    - api21 (lollipop): slide, explode, change clip bounds, change image transform, change transform
+    
+- scenes and transitions api (kit kat, api19+)
+  - ie:
+    public void click(Button button) {
+      TransitionManager.go(
+        Scene.getSceneForLayout(
+          (ViewGroup) this.findById(R.id.root),
+          R.layoyt.activity_main_scene_info,
+          MainActivity.this),
+        TransitionInflater.from(this)
+          .inflateTransition(R.transition.defaultToInfo));
+        )
+      )
+    }
+
+    - transition described in re/transition/defaultToInfo.xml
+    
+- transitions (lesson 06)
+  - content transitions: from one activity to another
+  - shared element transitions: where an element which is present on 2 screens transitions
+    - helps with visual continuity between shared elements across the two activities
+    
+  - complex animations not availables on less api19
+    - so use on api19+, but swap in simpler animations on older devices
+    
+- transitions (lessn 07)
+  - when activityA calls .startActivity() and lanuches activityB
+    - can have 2 sets of transitions
+      - axit transitions on views of activityA
+      - enter transtion on views of activityB
+    - can declare transtions in code ot in xml
+    - exit transition
+      - ie:
+        - res/transition/grid_exit.xml
+          <explode xmlns.../>
+          
+        - res/values/styles.xml
+          <stype name="AppTheme.Home">          // exit activity theme
+            <item name="android:windowExitTransition">@transition/grid_exit</item>
+            <item name="android:windowContentTransition">true</item>            // not necessary of already inheriting from AppCompat or Material theme
+          </style>
+          
+        - in activityA (exit activity)
+          - alter call to the startActivity()
+            // add a new budle to the startActivity call
+            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+            content.startActivity(intent, bundle);
+    - enter transition
+      - create q Slide transition in the ActivityB consturctor
+        Slide slide = new Slide(Gravity.BOTTOM);
+        slide.addTarget(R.id.description);              // this is the etxt view or the descriotion
+        slide.setInterpolator(AnimationUtils.loadInterpolator(this, android.R.interpolator..linear_out_slow_in));
+        slide.setDuration(duration);
+        
+        this.getWindow().setEnterTransition(slide);
+    
+    - code vs xml
+      - harer to reuse code in other places
+      
+    - backward compatibility
+      - this is only available since api21
+        - so declare res/ransition-v21 and res/values-v21 dircetories
+        - in code, if (Build.VETSION.SDK_INT >= Build.VERSION_CODES_LOLLIPOP) {...}
+      
+    - default behavior on the back from activityB to ActivityA is to reverse the entry transition (so implde in thsi case)
+      - can override behavior by declaring return B and re-enter A transtions (on top of enter and exit ones used earlier)
+        - ie:
+        - res/values/styles.xml
+          <stype name="AppTheme.Home">          // exit activity theme
+            <item name="android:windowExitTransition">@transition/grid_exit</item>
+            <item name="android:windowReenterTransition">@android/transition/slide_top</item>       // default provided transtion
+            <item name="android:windowContentTransition">true</item>            // not necessary of already inheriting from AppCompat or Material theme
+          </style>
+  
+- shared element transitions (lesson 10)
+  - for element (pics) that are shered between screens (ie: list of images to image details screen)
+  - pass information about the shared view between the two activities
+    - to indicate which elemnts are shared, set he same transition name attribute on both elementrs in the layout files
+      - ie:
+        <ImageView
+          ...
+          android:transitionName="@string/transition_photo" />          // use string resourcd to make sure names match exaclty
+          
+        - in the transition launching activity (ie: grid activity), specify shared element transition
+          Bundle bundle = AcitivityOptions.makeSceneTransitionAnimation(this, sharedViewm sharedView.getTransitionName()).toBundle();
+          this.startActivity(intent, bundle);
+          
+- instructive motion (lesson 12)
+  - eyes are naturally drawn to motion
+    - similar to shadows with surfaces
+  - when switching between tabs, have left to right (or vice versa) activity motion
+    - this instructs the user that they can also swipe to switch tab'
+    - the way content enters the screen can indicate how to interact with it
+    
+    
+- implement instructive motion (lesson 13)
+  - in activity, override onEnterAnimationComplete(), makes sure window transition is complete before starts; api > 5
+  - ie
+    @Override
+    public void onEnterAnimationComplete() {
+      super.onEnterAnimationComplete();
+      final int startScrollPosition = this.getREsources().getDimensionPixelSize(R.dimen.init_scroll_up_distance);
+      Animator animator = ObjectAnimator.orInt(
+        xScrollView,                // the veiw to scroll (from frame layout with padding top)
+        "scrollY",                  // what direction
+        startScrollPosition         // how much
+      ).setDuration(300);           // how fast
+      animator.start();
+    }
+    
+    - layout
+      FrameLayout
+        |- ImageView, layout_height 400
+        |- ScrollView, paddingTop 400
+          |- LinearLayout, background #fff, elevation 8dp
+            |- TextView
+            |- TextView
+            |- TextView
+          
+
+  - could also use the ScrollView.smoothScrollTo() method
+
+
+- tips to use motion to enhance experince, not detract (lesson 14)
+  - speed
+    - slow nough to convey meaning, but as fast as possible
+    - ~300ms
+    - designers tend to have animations that are longer than users prefer
+    - where possible, scale the time to the distance the object has to move
+  - interpolation
+    - chage speed of objects during the motion; usually slow down as get to end point
+    - can use fast out, slow in method; this makes animations feel fast and precise
+      - so fast at start, slow at end
+      - this is for entrering scene
+    - for exiting scene, fast out linear in
+      - so fast to leave
+      
+  - user initiated change
+    - on touch, surfaces rises up briefly and show ripples
+    - can ry to coordinate motion aound a user's touch point
+    - maes the user feel in control
+    
+- interpolators (lesson 15)
+  - ie
+    textView.setTranslationY(metrics.heightPixels);
+    
+    // create the interpolator and animate
+    BounceInterpolator interpolator = BounceInterpolator.newInstance();
+    textView.animate().setInterpolator(interpolator)
+        .setDuration(duration)
+        .setStartDelay(delay)
+        .translationYBy(-metrics.heightPixels)
+        .start();
+    
+    
+- coordinated motion (lesson 16)
+  - avoid chaotic
+  - try to have items move in same direction, not over;apping
+  - can used curved motion
+    - curved motion feels more natural
+    - linear motion can feel robotic
+  - when growing an item, to avoid mistaking it for a zoon effect
+    - animate height and width growth at different speeds
+    
+- quote
+  - the details are not the details; they make the design (Eames)
+  
+- whenever an item changes state, this can be a good time to animate the change
+  - this can descrivbe the change, and draw attention to it
+  
+- animated vextor drawables (lesson 19)
+  - this is to animate item state changes (spinning arrows, play to pause button, etc)
+  - vector drawabe
+    <vector xmlns="... width height viewportWidth viewportHeight>
+      <path .../>
+    </vector>
+  - vector drawables are great for iconography and simple illustrations
+    - provides deb\nsity independence
+  - can animate any property of a path of the vector drawable
+    - translate
+    - scale
+    - rotate
+    - opacity
+    - color
+    - path (morph one shaope into another); the shaes must have the same # of drawing commands
+    - trim start/end (display drawable pieces over time)
+    - clip-path (applying clip region to drawing); ie: outline heart with a fill heart inside
+
+  - ie animation: tick/check to cross animation with rotation
+    - res/drawable/ic_tick.xml
+    - res/drawable/ic_cross.xml
+    - res/animator/cross_to_tick.xml                // create animator
+      <objectAnimator xmlsn=...
+        android:propertyName="pathData"
+        android:valueFrom="<path value from cross xml>"
+        android:valueFrom="<path value from tick xml>"
+        android:duration=300
+        android:interpoaltor="android:interpolator/fast_out_slow_in"
+        android:valueType="pathType"/>
+    - res/drawable/avd_cross_to_tick.xml            // connacts animator to image
+      <animated-vector xmlns...
+        android:drawable="@drawable/ic_cross">
+        <target android:name="@string/cross" android:animation="@animator/cross_to_tick" />
+        <target android:name="@string/groupTickCross" android:animation="@animator/rotate_cross_to_tick" />
+      </animated-vector>
+  
+    
+    
+    
+  
+  
+  
+
+  
+    
+    
+Udacity Notes:
+--------------
+
+
+

@@ -66,6 +66,175 @@ My Notes:
         <resources>
 
 
+- lesson 11: create palette from image
+
+- lesson 12: type font
+  - roboto default android type
+    - was picked for use across lots of screens
+    - has different types of weights (light, medium, bold, black) and variants (condensed and slab)
+    
+  - sp:scale independent pixels
+    - 16 sp = 16 dp @ 100% scale (normal fot size setting)
+      - 16sp = 2-dp @ 125% (large font size setting)
+    
+  - accessibility font size
+    - under settings/display/font size
+      - also under accessibility settings
+      
+  - font characteristics
+    - roboto is sans-serif font (w/o serifs)
+      - serifs are little wings attached to the strokes of a letter
+      - serifs fomts usually inluded in printed books and are more comfortable for long form reading
+      - sans serifs are better for web and UI
+        - also safer choice when dealing with range of screen densities
+        
+    - baseline
+      - the optical common bottom alignment of the text
+      - x-height, same with top; height of most lowercase letters
+      - cap height: height of most upper case letters
+      - ascenders: height of ltters that are way above cap height
+      - descenders: ditto for lower
+      - leading: spacing between vertical lines of text
+      
+    - font family
+    - font weight: relative thickness of each letter
+      - assigned weight from thinnest (thin 100) to thickest (black 900)
+    - font style
+      - normal or italic
+    - in android
+      - if using Roboto: android:fontFamily (for family/weight) and android:textStyle (weight/style)
+        - usally avoid the textStyle for weight setting
+        - more control on weight with family setting
+        
+        - ie:
+          - android:fontFamily="sans-serif"
+          - android:fontFamily="sans-serif-condensed"
+          - android:fontFamily="sans-serif-thin"
+          - android:fontFamily="sans-serif-medium"
+      
+- lesson 17: choosing a font
+   - handwrittent font -> informal app
+   - geometric font give order, structure
+   - light font -> elegance but impermannence
+   - bold font -> heavyness but stability
+   - tips
+     - limit font palette
+       - can use custom font for branding areas like app bar, then roboto for the rest of the app
+     - try new font on devices with varying screen densities
+     - makes sure font fits mood of the app
+     
+- adding custom font (lesson 18)
+  - add *.ttf file in src/main/assets
+  - for fragmemts, need to initialize in onAttach() method (due to delay in binding)
+    - ie: courgette = Typeface.createFromAsset(this.getActivity().getAssets(), "...*.ttf");
+      - then in TextViews, call the TextView.setTyoeface(courgette);
+      
+      
+- imagery (lesson 20)
+  - types of imagery
+    - photography
+      - great when soecific to your content
+        - particular person, place or thing
+      - make sure quality is good enough to avoid pixalation
+      
+    - illustration
+      - good for abstract concepts or metaphors
+      - aim for clarity as opposed to too descriptive
+      - think of message trying to communicate
+      - stay consistent within the series of illustrations
+      
+    - iconography
+      - clear way finding; simple for description, then get out of the way
+      - should be easy to identify and interpret
+    
+- how to fit images (lesson 21)
+  - use CardView with image in it
+  - scale types
+    - default is FIT_CENTER
+      - scales image to fit inside the view while keeping the aspect raio
+      - if image doesnt' fit, extra space is distributed on both sides of the images (left/right or top/bottom)
+      
+    - FI_START and FIT_END
+      - scale image to fit inside the view
+      - align image for the unused space to appear beofre or after the image
+    _ FIT_XY
+      - scales image to fit the view, even if the aspect ratio changes
+  - centering
+    - CENTER
+      - centers in teh view with no scali g at all
+      - will cro pimage if too big
+    - CENTER_INSIDE
+      - will center the image to the view and will scale to fit
+      - if image smaller than the view, it will not scale it up and the space will be evenly distributed around the view
+    - CENTER_CROP
+      - will scale image so that both height and width of image exceeds the view, ceners, then crops image
+    - MATRIX
+      - custom built centering and fitting
+      
+- avatars (lesson 22)
+  - pictures of person
+  - best to show as ccircle image (firndlier)
+    - use RoundedBitmapDrawable class
+    - ie:
+      - RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(context.getResources(), bitmap);
+      - drawable.setCircular(true);         // because bitmap is rounded, not circular yet
+        - Note -> getResources() determines the screen density
+      
+- ImageView
+  - can subclass it to enforce a certain aspect ratio
+    - ie:
+    public class ThreeTwoIamgeView extends IageView {
+      // TODO: overrride all 3 constructors
+      
+      protected void onMeasure(int widthSpec, int heighScpe) {
+        int threeTwo = MeasureSpec.getSize(widthSpec) * 2 / 3;
+        int threeTwoSpec MeeasureSpec.makeMeasureSpec(threeTwom measureSpec.EXACTLY);
+        super.ponMeasure(widthSpec, threeTwoSpec);
+      }
+    }
+    
+    - in layout:
+      <your.package.ThreeTwoImageView
+        android:laout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop" />
+        
+        
+- putting image in background of text
+  - use scrim, semi tarnsparent layer between image and text
+    - gradual darkeining if image as reaches the bottom
+    - choose size of scrim and opacity values to not distract too much fom the image
+    - uie:
+      <shape android:spahe="rectangle">
+        <gradient
+          android:angle="-90"
+          android:startColor="#00000000"
+          android:centerColor="#00000000"
+          android:endColor="#4D000000"              // 30% opaque black
+          android:type="linear" />
+      </shape>
+    
+    - in layout; use frame layout to stack the views
+      <FrameLayout>
+        <ImageView>
+        <View
+         android:background="drawable/scrim"
+         ... />
+        <TextView
+          android:layout_gravity="bottom"
+          ... />
+      </FrameLayout>
+        
+    
+      
+      
+    
+
+To Review:
+----------
+- lesson 11, build an app that creates palette colors from iamge and displays them
+
+
 
 
 
