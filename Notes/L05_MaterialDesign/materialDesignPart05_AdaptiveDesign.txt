@@ -1,0 +1,146 @@
+
+
+My Notes:
+---------
+
+- too much white space creates unbalanced UIs (in tablets especially)
+
+- fluid layout
+  - that stretch dependeing on screen size
+    - linear, grid, frame or relative layouts
+  - but on larger screens, get large amoutn of white space
+  
+- rubric to analize screen design
+  - balanced use of space
+    - (make sure use of space is balanced left/right, and possibly up/down)
+  - reading comfort
+    - (want 45-75 chars per line limit)
+  - image quality
+  - maintaining context
+  - aesthetic
+  
+- adaptive design (lesson 05)
+  - breakpoints: points at which our UI changes
+    - ie: 600dp width or larger, add new column of content
+    - there are common breakpoints in the material spec
+      - but choose your breakpoints based on your content requirements
+      
+- breakpoints (lesson 06)
+  - resource qualifieers
+    - width (w<num>dp)
+      - ie: layout-w600dp
+    - height (h<num>dp)
+    - land
+    - port
+    - smallest width (sw<num>dp)
+      - smallest of the screens width or height (regradless of portraint or lanscape)
+      - good to control resoucres (like fonts) that you don't want to modify when device is rotated
+      
+  - size buckets (less useful and considered deprecated)
+    - small
+    - normal
+    - large
+    - extra large
+    
+- techniques for managing space (lesson 07)
+  - reveal
+    - reveal previously hidden UI elements
+      - ie: offscreen navigation drawer might appear in larger devices
+  - divide
+    - add extra content from seperate activity in workflow
+    - ie: add details page
+  - reflow
+    - new layout
+    - ie: from linear layout to grid layout
+    - ie: can slao expand app bar height
+    - ie: from portrait to landscape, image on top of text can now be image to the side of text
+  - expand
+    - if don't have more content to show on the screen, expand the content to a point
+      - introduce margins to keep it from expanding too wide
+      
+    
+- how to vary layouts (lesson 08)
+  - use layout includes
+    - ie:
+      <LinearLayout>
+        <ToolBar>
+        <include layout="@layout/mainContent>
+      </LinearLayout>
+        
+    res/layout/maincontent.xml
+      <ListView>
+    res/layout-w600dp/maincontent.xml
+      <GridView>
+      
+  - integer resources
+    -ie:
+      <GridView android:numColumns-"@integer/gris_columns">
+      
+      res/values/integers.xml
+        <integer name="grid_columns">1</integer>
+      res/values-w600dp/integers.xml
+        <integer name="grid_columns">3</integer>
+        
+  - change list item layout per size; use column count resources in code
+    - ie:
+      public view newView(...) {
+        int columns = this.getResources.getInteger(R.integer.grid_columns);
+        
+        return this.getLayoutInflater().inflate(columns == 1 ? R.layout.item_title : R.layout.item_card, parent, false);
+      }
+      
+  - vary sizes/dimension for paddings/margins
+    - ie:
+      <ToolBar layout_height="@dimen/bar_height">
+      <RecyclerView layout_marginStart="@dimen/side_margin">
+    
+      res/values/dimens.xml
+        <dimen name="bar_height">56dp</dimen>
+        <dimen name="side_margin">16dp</dimen>
+      res/values-w600dp/dimens.xml
+        <dimen name="bar_height">128dp</dimen>
+        <dimen name="side_margin">80dp</dimen>
+    
+  - max out sixe of element (button)
+    - ie:
+      <Button layout_width="@dimen/button_width">
+      
+      res/values/dimens.xml
+        <dimen name="button_width">@dimen/match_parent</dimen>
+        <item name=match_parent" format="integer" type="dimen">-1</item>
+      res/values-w400dp/dimens.xml
+        <dimen name="button_width">400dp</dimen>
+      
+  - keyline varying
+    - for phone, standard of 16dp and 72dp
+    - for tablet, 24dp and 80dp
+    
+    - ie:
+      <ToolBar contentInsetStart="@dimen/keyline_2">
+      
+      res/values/dimens.xml
+        <dimen name="keyline_2">72dp</dimen>
+      res/values-w600dp/dimens.xml
+        <dimen name="keyline_2">80dp</dimen>
+      
+  - theme changes
+    - switch from full screen activity to dialog at 600dp
+    - ie:
+      <activity android:theme="@style/MyTheme">
+      
+      res/values/styles.xml
+        <style name="MyTheme" parent="BaseTheme">
+        </style>
+        <style name="MyTheme" parent="Theme.AppCompat"/>
+      res/values-sw600dp/styles.xml                                 // note the use of sw, not w qualifier; so same dialog display regardless
+        <style name="MyTheme" parent="Theme.AppCompat.Dialog"/>     // of rotation
+
+
+
+
+
+Udacity Notes:
+--------------
+
+
+
